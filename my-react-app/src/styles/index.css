@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Menu */
+.menu-item {
+    @apply 
+    m-2 ml-2 mr-2 
+    w-9/10 
+    p-1 
+    rounded-md 
+    border border-black border-2 
+    bg-white
+    flex items-center justify-center 
+    gap-1 
+    overflow-hidden
+}
+
+.menu-item-text {
+    @apply
+    flex-grow truncate
+    text-xxs xs:text-xs sm:text-sm md:text-sm
+}
+
+.symbol {
+    @apply
+    max-h-full h-auto 
+    max-w-full w-3.5 xxs:w-4 xs:w-5 sm:w-6
+}
