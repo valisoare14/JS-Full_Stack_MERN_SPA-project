@@ -12,7 +12,7 @@
 precum YahooFinance, CoinGecko si CoinMarketCap, oferind o alternativa de luat in calcul.
 - In procesul de culegere al datelor economice,
 Aplicatia interacționează cu diferiți provideri de date prin trimiterea de cereri RESTful API.
-Aceste cereri sunt efectuate utilizând protocolul HTTP și sunt direcționate către endpoint-uri API specifice ale fiecărui furnizor(ex. furnizori : '12Data' 'Alpha Vantage' 'Coingekp API' ...)
+Aceste cereri sunt efectuate utilizând protocolul HTTP și sunt direcționate către endpoint-uri API specifice ale fiecărui furnizor(ex. furnizori : '12Data' 'Alpha Vantage' 'Coingeko API' ...)
 
 ### Functionalitati implementate: 
 - lista active
