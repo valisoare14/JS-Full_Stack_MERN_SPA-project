@@ -1,10 +1,10 @@
 import Markets from "./components/Markets";
-import {BrowserRouter, Routes , Navigate ,Route ,useLocation} from "react-router-dom"
+import {BrowserRouter, Routes , Navigate ,Route} from "react-router-dom"
 import Account from "./components/Account";
 import Login from "./components/Login";
 import EmailVerification from "./components/EmailVerification";
 import Register from "./components/Register";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import News from "./components/News";
 import { useCheckToken } from "./custom_hooks/useCheckToken";
 import PrimaryLayout from "./components/layout/PrimaryLayout";
@@ -12,8 +12,7 @@ import Calendar from "./components/Calendar";
 import Watchlist from "./components/Watchlist";
 
 function App() {
-
-  const token=useSelector(state=>state.global.token)
+  const token = useSelector(state=>state.global.token)
   const loading=useSelector(state=>state.global.loading)
 
   useCheckToken()

@@ -1,6 +1,10 @@
 //Moongose ~ MongoDB
 const mongoose=require('mongoose')
 const NotificationSchema=new mongoose.Schema({
+   userId : {
+      type : mongoose.Schema.Types.ObjectId ,
+      ref : 'user'
+   },
    message:String,
    timestamp:Date
 },{ versionKey: false })

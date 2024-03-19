@@ -1,8 +1,9 @@
-async function pushNotification(notification){
+async function pushNotification(notification,token){
     try {
         const response=await fetch(`${process.env.REACT_APP_LOCAL_SERVER}notifications/`,{
             method:"POST",
             headers:{
+                'Authorization':`Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({message:notification})

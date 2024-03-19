@@ -12,7 +12,7 @@ function NotificationCenter(){
     const dispatch=useDispatch()
 
     useEffect(()=>{
-        getNotifications().then(data=>setNotifications(data))
+        getNotifications(localStorage.getItem('token')).then(data=>setNotifications(data))
         .catch(err=>console.error(err))
     },[])
     return(

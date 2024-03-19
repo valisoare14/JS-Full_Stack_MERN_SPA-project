@@ -1,7 +1,6 @@
 import AssetsList from "./AssetsList"
 import { useSelector } from "react-redux"
 import MarketsButton from "./layout/MarketsButton"
-import { setError } from "../store/slices/slice"
 
 function Markets(){
     const lastUpdate=useSelector(state=>state.global.lastUpdate)

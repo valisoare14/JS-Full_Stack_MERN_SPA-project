@@ -1,8 +1,8 @@
 import { useEffect } from "react"
-import { setToken,setLoading } from "../store/slices/slice"
+import { setLoading } from "../store/slices/slice"
 import { useDispatch } from "react-redux"
 
-function useCheckToken(){
+function useCheckToken() {
     const dispatch=useDispatch()
     useEffect(()=>{
         async function checkToken(){
@@ -21,14 +21,12 @@ function useCheckToken(){
                         localStorage.removeItem('token')
                         throw new Error(result.message)
                     }
-                    return token  
                 }
             } catch (error) {           
                 console.error(error.message)
-                return null
             }
         }
-        checkToken().then(token=>{dispatch(setToken(token));dispatch(setLoading(false))}).catch(err=>console.error(err))
+        checkToken().then(()=>dispatch(setLoading(false))).catch(err=>console.error(err))
     },[])
 }
 

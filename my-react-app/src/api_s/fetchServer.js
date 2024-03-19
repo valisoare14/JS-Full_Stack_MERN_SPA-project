@@ -5,6 +5,9 @@ async function fetchServer(symbol){
     try {
         const response=await fetch(`${process.env.REACT_APP_LOCAL_SERVER}${symbol}`)
         const data=await response.json()
+        if(!response.ok) {
+          throw new Error(data.message)
+        }
         return data
     } catch (error) {
       console.error(error)

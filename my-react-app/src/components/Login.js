@@ -1,8 +1,9 @@
 import {Link,useNavigate} from 'react-router-dom'
 import { useState } from 'react'
-import { setToken , setOnNotify} from '../store/slices/slice'
+import { setOnNotify} from '../store/slices/slice'
 import { useDispatch } from 'react-redux'
 import { pushNotification } from '../api_s/pushNotification'
+import { setToken } from '../store/slices/slice'
 
 function Login(){
     const [email,setEmail]=useState(null)
@@ -30,7 +31,7 @@ function Login(){
             }
             localStorage.setItem('token',data.data)
             dispatch(setToken(data.data))
-            await pushNotification(data.message)
+            await pushNotification(data.message , localStorage.getItem('token'))
             dispatch(setOnNotify(true))
             navigate('/',{replace:true})
         } catch (err) {
