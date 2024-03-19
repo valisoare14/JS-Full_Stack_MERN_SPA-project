@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import { setMenu ,setNotificationCenter , setOnNotify , setToken } from '../store/slices/slice';
 import { useDispatch } from 'react-redux';
 import { deleteNotifications } from '../api_s/deleteNotifications';
+import PushupNotification from './layout/PushupNotification';
+
 
 function Navbar(){
     const token = useSelector(state=>state.global.token)
     const menu=useSelector(state=>state.global.menu)
+    const pushUpMessage=useSelector(state=>state.global.pushUpMessage)
     const notificationCenter=useSelector(state=>state.global.notificationCenter)
     const onNotify=useSelector(state=>state.global.onNotify)
 
@@ -16,9 +19,9 @@ function Navbar(){
     async function handleLogout(){
         try {
             dispatch(setMenu(false))
-            await deleteNotifications(localStorage.getItem('token'))
-            localStorage.removeItem('token')
-            dispatch(setToken(localStorage.getItem('token')))
+            await deleteNotifications(token)
+            sessionStorage.removeItem('token')
+            dispatch(setToken(sessionStorage.getItem('token')))
             navigate('/login',{
                 replace:true
             })
@@ -43,6 +46,7 @@ function Navbar(){
                     </Link>
                 }
             </div>
+            {pushUpMessage.length !=0 && <PushupNotification/>}
        </div>
     )
 }

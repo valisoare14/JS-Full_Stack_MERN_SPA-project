@@ -24,7 +24,7 @@ function News(){
         {!loading ?
                 <>
                     {data?.feed?
-                        data.feed.map(element=><New item={element}/>)
+                        data.feed.map(element=><New item={element} key={element.title}/>)
                         // <New item={data.feed[0]}/>
                         :
                         <div>

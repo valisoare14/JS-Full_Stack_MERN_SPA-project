@@ -8,7 +8,7 @@ function New(params){
                     <div className="flex flex-col justify-evenly gap-1">
                         <p class="rounded-tl-md text-black font-bold overflow-hidden text-center">{item.title}</p>
                         <p className="md:text-xs">date: {item.time_published}</p>
-                        <p className="flex md:text-xs">authors: {item.authors.length>1?item.authors.map(element=>(<span className="pl-1 underline decoration-sky-500 ">{element}</span>)):(<span className="underline decoration-sky-500 pl-1">{item.authors[0]}</span>)}</p>
+                        <p className="flex md:text-xs">authors: {item.authors.length>1?item.authors.map(element=>(<span className="pl-1 underline decoration-sky-500 " >{element}</span>)):(<span className="underline decoration-sky-500 pl-1">{item.authors[0]}</span>)}</p>
                         <p className="flex md:text-xs">topics: {
                         item.topics
                         && 

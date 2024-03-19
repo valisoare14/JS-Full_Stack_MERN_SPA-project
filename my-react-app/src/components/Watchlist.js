@@ -7,6 +7,7 @@ import { setAssets } from "../store/slices/slice"
 
 function Watchlist(){
     const collection = useSelector(state=>state.global.collection)
+    const token = useSelector(state=>state.global.token)
     const [err,setErr] = useState(null)
     const assets = useSelector(state=>state.global.assets)
     const dispatch = useDispatch()
@@ -34,10 +35,13 @@ function Watchlist(){
     }
 
     useEffect(()=>{
-        getWatchlistAssets(collection,localStorage.getItem('token'))
+        getWatchlistAssets(collection,token)
         .then(async (data) => {
-            if(data.length != 0)
+            if(data.length != 0) {
                 dispatch(setAssets(await fullAssetDetails(data,collection)))
+            } else{
+                dispatch(setAssets(data))
+            }
         })
         .catch(error =>{
             console.error(error)

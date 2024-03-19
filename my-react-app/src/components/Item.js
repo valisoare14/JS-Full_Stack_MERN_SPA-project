@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { pushNotification } from "../api_s/pushNotification"
 import { useDispatch,useSelector } from "react-redux"
-import { setOnNotify , setWatchlistSymbols , setAssets } from "../store/slices/slice"
+import {pushNotification} from '../api_s/pushNotification'
+import { setOnNotify , setWatchlistSymbols , setAssets , setPushUpMessage } from "../store/slices/slice"
 import { manageWatchlistAsset } from "../api_s/manageWatchlistAsset"
 import { updateWatchlistSymbols } from "../api_s/updateWatchlistSymbols"
 import {useNavigate} from 'react-router-dom'
@@ -17,8 +17,8 @@ function Item(props){
 
     async function manageWatchlist() {
         if(token) {
-            await manageWatchlistAsset(selected ? 'DELETE' : 'POST' , item.symbol , localStorage.getItem('token') , item.market)
-            await updateWatchlistSymbols(item.market , localStorage.getItem('token'))
+            await manageWatchlistAsset(selected ? 'DELETE' : 'POST' , item.symbol , token , item.market)
+            await updateWatchlistSymbols(item.market , token)
             .then(data=>{
                 if (data.length != 0) {
                     dispatch(setWatchlistSymbols(data))
@@ -28,8 +28,9 @@ function Item(props){
             if(selected && watchlist) {
                 dispatch(setAssets(assets.filter(el => el.symbol != item.symbol)))
             }
-            await pushNotification(`${item.name} ${selected ? 'removed from' : 'added to'} watchlist !`,localStorage.getItem('token'))
+            await pushNotification(`${item.name} ${selected ? 'removed from' : 'added to'} watchlist !`,token)
             dispatch(setOnNotify(true))
+            dispatch(setPushUpMessage(`${item.name} ${selected ? 'removed from' : 'added to'} watchlist !`))
             setSelected(!selected)
         } else {
             navigate('/login')

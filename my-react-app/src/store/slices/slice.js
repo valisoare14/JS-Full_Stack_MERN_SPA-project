@@ -10,7 +10,8 @@ const initialState={
     loading:true,
     notificationCenter:false,
     onNotify:false,
-    watchlistSymbols:[]
+    watchlistSymbols:[],
+    pushUpMessage:''
 }
 
 export const globalSlice=createSlice({
@@ -46,8 +47,14 @@ export const globalSlice=createSlice({
         },
         setWatchlistSymbols:(state,action)=>{
             state.watchlistSymbols=action.payload
+        },
+        setPushUpMessage:(state,action)=>{
+            state.pushUpMessage=action.payload
         }
     }
 })
 
-export const {setAssets,setLastUpdate,setCollection,setError,setToken,setMenu,setLoading,setNotificationCenter,setOnNotify,setWatchlistSymbols}=globalSlice.actions
+export const {setAssets,setLastUpdate,setCollection
+    ,setError,setToken,setMenu,setLoading,setNotificationCenter
+    ,setOnNotify,setWatchlistSymbols,setPushUpMessage
+}=globalSlice.actions

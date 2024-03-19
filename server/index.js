@@ -4,6 +4,7 @@ const cors=require('cors')
 const express=require('express')
 
 const verifyToken = require('./utils/verifyToken')
+const jwt = require('jsonwebtoken')
 
 const usersRoutes=require('./routes/users')
 const authentificationRoutes=require('./routes/authentification')
@@ -16,9 +17,8 @@ const cryptocurrenciesRoutes = require('./routes/cryptocurrencies')
 const commoditiesRoutes = require('./routes/commodities')
 
 //MDB
-const Stock=require('./databases/Stock')
-const Crypto=require('./databases/Crypto')
-const Commodity=require('./databases/Commodity')
+const Notification = require('./databases/Notification')
+const {User} = require('./databases/User')
 const mdbconnect=require('./databases/database')
 
 const app = express()
@@ -45,6 +45,29 @@ app.use('/commodities',commoditiesRoutes)
 
 app.get('/', function (req, res) {
     res.status(200).send('Hello World')
+})
+
+app.delete('/cleardatabase',async(req,res)=>{
+    try {
+        const decoded = jwt.verify(req.body.token, process.env.JASON_WEB_TOKEN);
+        const userId = decoded._id
+        if(!userId) {
+            return res.status(400).json({message :"User never logged !"})
+        }
+        const user = await User.findOne({
+            _id : userId
+        })
+        if(!user) {
+            return res.status(400).json({message :"User not found !"})
+        }
+        await Notification.deleteMany({
+            userId : userId
+        })
+        return res.status(200).json({message:"All notifications were deleted !"})
+    } catch (error) {
+        console.error(error)
+        return res.status(400).json({message:error.message})
+    }
 })
 
 app.listen(5000,()=>{

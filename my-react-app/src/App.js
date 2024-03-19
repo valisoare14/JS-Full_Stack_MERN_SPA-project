@@ -10,6 +10,7 @@ import { useCheckToken } from "./custom_hooks/useCheckToken";
 import PrimaryLayout from "./components/layout/PrimaryLayout";
 import Calendar from "./components/Calendar";
 import Watchlist from "./components/Watchlist";
+import { useEffect } from "react";
 
 function App() {
   const token = useSelector(state=>state.global.token)
@@ -17,26 +18,26 @@ function App() {
 
   useCheckToken()
 
-
+  
   return (
-    <BrowserRouter>
-      <Routes>
-        {!loading
-          &&
-          <>
-            <Route path="/" element={<PrimaryLayout><Markets/></PrimaryLayout>}/>
-            <Route path="/news" element={token?<PrimaryLayout><News/></PrimaryLayout>:<Navigate replace to="/login"/>}/>
-            <Route path="/calendar" element={token ?<PrimaryLayout><Calendar /></PrimaryLayout> : <Navigate replace to="/login" />} />
-            <Route path="/account" element={token ?<PrimaryLayout><Account /></PrimaryLayout> : <Navigate replace to="/login" />} />
-            <Route path="/watchlist" element={token ?<PrimaryLayout><Watchlist /></PrimaryLayout> : <Navigate replace to="/login" />} />
-            <Route path='/login' element={<Login/>}/>
-            <Route path='/users/verify/:id/:token' element={<EmailVerification/>}/>
-            <Route path="/register" element={<Register/>}/>
-          </>
-        }
-        
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          {!loading
+            &&
+            <>
+              <Route path="/" element={<PrimaryLayout><Markets/></PrimaryLayout>}/>
+              <Route path="/news" element={token?<PrimaryLayout><News/></PrimaryLayout>:<Navigate replace to="/login"/>}/>
+              <Route path="/calendar" element={token ?<PrimaryLayout><Calendar /></PrimaryLayout> : <Navigate replace to="/login" />} />
+              <Route path="/account" element={token ?<PrimaryLayout><Account /></PrimaryLayout> : <Navigate replace to="/login" />} />
+              <Route path="/watchlist" element={token ?<PrimaryLayout><Watchlist /></PrimaryLayout> : <Navigate replace to="/login" />} />
+              <Route path='/login' element={<Login/>}/>
+              <Route path='/users/verify/:id/:token' element={<EmailVerification/>}/>
+              <Route path="/register" element={<Register/>}/>
+            </>
+          }
+          
+        </Routes>
+      </BrowserRouter>
   );
 }
 

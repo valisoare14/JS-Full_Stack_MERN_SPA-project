@@ -8,11 +8,12 @@ import { getNotifications } from "../api_s/getNotifications"
 function NotificationCenter(){
     const [notifications,setNotifications]=useState(null)
     const notificationCenter=useSelector(state=>state.global.notificationCenter)
+    const token = useSelector(state=>state.global.token)
 
     const dispatch=useDispatch()
 
     useEffect(()=>{
-        getNotifications(localStorage.getItem('token')).then(data=>setNotifications(data))
+        getNotifications(token).then(data=>setNotifications(data))
         .catch(err=>console.error(err))
     },[])
     return(

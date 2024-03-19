@@ -28,3 +28,19 @@
     max-h-full h-auto 
     max-w-full w-3.5 xxs:w-4 xs:w-5 sm:w-6
 }
+
+@keyframes slideDown {
+    from {
+      transform: translateY(-100%) translateX(-50%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) translateX(-50%);
+      opacity: 1;
+    }
+}
+  
+.notification-slide-down {
+    animation: slideDown 0.5s ease-out forwards;
+}
+  

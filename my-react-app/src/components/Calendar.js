@@ -49,12 +49,10 @@ function Calendar(){
 
         if(((Date.now()-targetDay)/(1000*60*60*24)).toFixed(0) >=15){
             setLeftButton(false)
-            pushNotification('Calendar -  Interval limit reached !').then(data=>console.log(data))
             dispatch(setOnNotify(true))
         }
         if(((Date.now()-targetDay)/(1000*60*60*24)).toFixed(0) <= -15 ){
             setRightButton(false)
-            pushNotification('Calendar -  Interval limit reached !').then(data=>console.log(data))
             dispatch(setOnNotify(true))
         }
     },[targetDay])
