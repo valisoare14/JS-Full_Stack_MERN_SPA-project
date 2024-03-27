@@ -6,7 +6,21 @@ const CommoditieSchema=new mongoose.Schema({
     symbol:String,
     current_price:Number,
     price_change_percentage_24h:Number,
-    market : String
+    market : String,
+    market_cap:Number,
+    supply : Number,
+    dayHigh:Number,
+    dayLow:Number,
+    market_cap_rank:Number,
+    price_change_24h:Number,
+    previous_close: Number,
+    year_high:Number,
+    year_low:Number,
+    average_price_50_days:Number,
+    average_price_200_days:Number,
+    exchange:String,
+    volume:Number,
+    average_volume:Number
    }],
    timestamp:Date
 },{ versionKey: false })

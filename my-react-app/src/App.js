@@ -10,7 +10,8 @@ import { useCheckToken } from "./custom_hooks/useCheckToken";
 import PrimaryLayout from "./components/layout/PrimaryLayout";
 import Calendar from "./components/Calendar";
 import Watchlist from "./components/Watchlist";
-import { useEffect } from "react";
+import Calculator from "./components/Calculator";
+import Alerts from "./components/alerts/Alerts";
 
 function App() {
   const token = useSelector(state=>state.global.token)
@@ -30,6 +31,8 @@ function App() {
               <Route path="/calendar" element={token ?<PrimaryLayout><Calendar /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path="/account" element={token ?<PrimaryLayout><Account /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path="/watchlist" element={token ?<PrimaryLayout><Watchlist /></PrimaryLayout> : <Navigate replace to="/login" />} />
+              <Route path="/calculator" element={token ?<PrimaryLayout><Calculator /></PrimaryLayout> : <Navigate replace to="/login" />} />
+              <Route path="/alerts" element={token ?<PrimaryLayout><Alerts /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path='/login' element={<Login/>}/>
               <Route path='/users/verify/:id/:token' element={<EmailVerification/>}/>
               <Route path="/register" element={<Register/>}/>
