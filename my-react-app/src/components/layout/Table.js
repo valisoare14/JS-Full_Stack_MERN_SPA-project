@@ -24,7 +24,7 @@ function Table(props){
     },[collection])
     return(
         <>
-            <table className="w-full ">
+            <table className="w-full">
                 <thead className='border-b-2 border-t-2 border-black text-xs  sm:text-base '>
                     <tr>
                         <td className=' p-1 sm:p-3 text-center sm:text-left'>Name</td>

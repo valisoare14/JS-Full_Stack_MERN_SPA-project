@@ -1,6 +1,7 @@
 import AssetsList from "./AssetsList"
 import { useSelector } from "react-redux"
 import MarketsButton from "./layout/MarketsButton"
+import {changeDateFormat} from '../utils/changeDateFormat'
 
 function Markets(){
     const lastUpdate=useSelector(state=>state.global.lastUpdate)
@@ -10,17 +11,6 @@ function Markets(){
         document.body.classList.add('overflow-y-hidden')
     } else {
         document.body.classList.remove('overflow-y-hidden')
-    }
-
-    function changeDateFormat(stringDate) {
-        const date = new Date(stringDate)
-        const year=date.getFullYear().toString()
-        const month=(date.getMonth()+1).toString().padStart(2,'0')
-        const day=date.getDate().toString().padStart(2,'0')
-        const hour = date.getHours().toString().padStart(2,'0')
-        const minutes = date.getMinutes().toString().padStart(2,'0')
-
-        return `${year}-${month}-${day}  ${hour}:${minutes}`
     }
 
     return(

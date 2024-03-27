@@ -15,6 +15,7 @@ const watchlistRoutes = require('./routes/watchlist')
 const stockRoutes = require('./routes/stocks')
 const cryptocurrenciesRoutes = require('./routes/cryptocurrencies')
 const commoditiesRoutes = require('./routes/commodities')
+const alarmsRoutes = require('./routes/alarms')
 
 //MDB
 const Notification = require('./databases/Notification')
@@ -42,6 +43,7 @@ app.use('/watchlist',verifyToken,watchlistRoutes)
 app.use('/stocks' , stockRoutes)
 app.use('/cryptocurrencies',cryptocurrenciesRoutes)
 app.use('/commodities',commoditiesRoutes)
+app.use('/alarms',verifyToken,alarmsRoutes)
 
 app.get('/', function (req, res) {
     res.status(200).send('Hello World')

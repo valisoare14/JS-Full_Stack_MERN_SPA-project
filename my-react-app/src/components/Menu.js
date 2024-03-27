@@ -28,13 +28,13 @@ function Menu(){
             <button className="menu-item" onClick={()=>{navigate('/watchlist')}}>
                 <img src="/icos/watchlist_icos/bookmark-star.svg" alt="Watchlist logo" className="symbol"/> <span className="menu-item-text">Watchlist</span>
             </button>
-            <button className="menu-item" >
+            <button className="menu-item" onClick={()=>{navigate('/calculator')}}>
                 <img src="/icos/calculator.svg" alt="Calculator logo" className="symbol"/> <span className="menu-item-text">Calculator</span>
             </button>
             <button className="menu-item" >
                 <img src="/icos/education.svg" alt="Education logo" className="symbol"/> <span className="menu-item-text">Education</span>
             </button>
-            <button className="menu-item" >
+            <button className="menu-item" onClick={()=>navigate('/alerts')}>
                 <img src="/icos/alert.svg" alt="Alerts logo" className="symbol"/> <span className="menu-item-text">Alerts</span>
             </button>              
         </div>

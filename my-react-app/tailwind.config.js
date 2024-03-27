@@ -68,6 +68,9 @@ module.exports = {
           xxs: ['10px', '12px'],
           xxxs: ['8px','10px']
         },
+        borderWidth:{
+          '1':'0.05rem'
+        }
       }
     },
     plugins: [],
