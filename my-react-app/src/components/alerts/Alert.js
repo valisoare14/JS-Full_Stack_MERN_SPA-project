@@ -65,7 +65,7 @@ function Alert() {
         {!loading ? 
             <div className="flex-col font-mono p-1 sm:p-3 border  m-2 sm:m-4 text-xxs sm:text-sm ">
                 <div className="text-center text-green-600 text-sm sm:text-lg">Create Alarm</div>
-                <div className="flex w-full justify-between p-1 sm:p-3">
+                <div className=" flex w-full justify-between p-1 sm:p-3">
                     <div>
                         market:
                     </div>
