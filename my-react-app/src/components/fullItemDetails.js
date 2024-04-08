@@ -1,12 +1,14 @@
 import { useSelector , useDispatch } from "react-redux"
 import { setAssetDetails } from "../store/slices/slice"
 import {changeDateFormat} from'../utils/changeDateFormat'
+import Feedback from "./layout/Feedback"
 
 function FullItemDetails() {
     const dispatch = useDispatch()
     const assetDetails = useSelector(state => state.global.assetDetails)
     const asset = useSelector(state => state.global.asset)
     const collection = useSelector(state => state.global.collection)
+    const token = useSelector(state=> state.global.token)
 
     function changeFormat(value) {
         if(value) {
@@ -74,6 +76,18 @@ function FullItemDetails() {
                         <div>$ {asset.previous_close?.toFixed(3)}</div>
                     </div>
                 </div>
+                {token && 
+                <div className="flex items-center w-full">
+                    <Feedback asset={asset}/>
+                    <div className="flex justify-center w-40/100 ">
+                        <button className="bg-sky-600 rounded-md w-full xxs:w-75/100 sm:w-50/100 text-xxxs xs:text-xxs sm:text-xs">
+                            add to portfolio
+                        </button>
+                    </div>
+                    
+                </div>
+                
+                }
                 {collection == 'stocks' &&
                 <ul className="overflow-auto m-1 sm:m-3">
                     <li className="sm:mt-1 sm:mb-1">Country: {asset.country}</li>
