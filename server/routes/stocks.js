@@ -10,8 +10,8 @@ router.get('/',async(req,res)=>{
         const docnumber=await Stock.countDocuments({})
         if(docnumber==0){
             try {
-                const symbols=['AAPL', 'MSFT', 'AMZN', 'GOOGL','BRK-A', 'JNJ', 'WMT', 'V', 'JPM', 'TSLA', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'BABA', 'DIS', 'PFE', 'KO']
-                const names=["Apple Inc.", "Microsoft Corporation", "Amazon.com Inc.", "Alphabet Inc.", "Berkshire Hathaway Inc.", "Johnson & Johnson", "Walmart Inc.", "Visa Inc.", "JPMorgan Chase & Co.", "Tesla, Inc.", "Procter & Gamble Co.", "UnitedHealth Group Incorporated", "Mastercard Incorporated", "NVIDIA Corporation", "The Home Depot, Inc.", "Alibaba Group Holding Limited", "The Walt Disney Company", "Pfizer Inc.", "The Coca-Cola Company"]
+                const symbols=JSON.parse(process.env.STOCKS_SYMBOLS)
+                const names=JSON.parse(process.env.STOCKS_NAMES)
                 const currentPrices=[]
                 for(let symbol of symbols){
                     //Price
@@ -61,8 +61,8 @@ router.get('/',async(req,res)=>{
             //API fetch limit : 100 minutes
             if(lastupdate>100){
                 try {
-                    const symbols=['AAPL', 'MSFT', 'AMZN', 'GOOGL','BRK-A', 'JNJ', 'WMT', 'V', 'JPM', 'TSLA', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'BABA', 'DIS', 'PFE', 'KO']
-                    const names=["Apple Inc.", "Microsoft Corporation", "Amazon.com Inc.", "Alphabet Inc.", "Berkshire Hathaway Inc.", "Johnson & Johnson", "Walmart Inc.", "Visa Inc.", "JPMorgan Chase & Co.", "Tesla, Inc.", "Procter & Gamble Co.", "UnitedHealth Group Incorporated", "Mastercard Incorporated", "NVIDIA Corporation", "The Home Depot, Inc.", "Alibaba Group Holding Limited", "The Walt Disney Company", "Pfizer Inc.", "The Coca-Cola Company"]
+                    const symbols=JSON.parse(process.env.STOCKS_SYMBOLS)
+                    const names=JSON.parse(process.env.STOCKS_NAMES)
                     const currentPrices=[]
                     for(let symbol of symbols){
                         //Price
@@ -73,7 +73,7 @@ router.get('/',async(req,res)=>{
                         currentPrices.push({'price_change_percentage_24h':result.dp,
                         'name':names[symbols.indexOf(symbol)],
                         'symbol':symbol,
-                        'current_price':Number(result.c).toFixed(2),
+                        'current_price': result.c.toFixed(2),
                         'image':result_.logo,
                         "market":"stocks",
                         "market_cap":result_.marketCapitalization,

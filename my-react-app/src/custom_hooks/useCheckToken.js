@@ -24,20 +24,6 @@ function useCheckToken() {
                     }
                     dispatch(setToken(token))
                     return
-                } else if(localStorage.getItem('token')) {
-                   const response = await fetch(`${process.env.REACT_APP_LOCAL_SERVER}cleardatabase`,{
-                        method:"DELETE",
-                        headers:{
-                            'Content-Type':'application/json'
-                        },
-                        body: JSON.stringify({
-                            token: localStorage.getItem('token')
-                        })
-                   })
-                   const result = await response.json()
-                   if(!response.ok) {
-                        throw new Error(result.message)
-                   }
                 }
             } catch (error) {           
                 console.error(error.message)

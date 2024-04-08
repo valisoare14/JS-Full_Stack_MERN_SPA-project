@@ -5,6 +5,14 @@ const {dateParser}=require('../utils/dateParser')
 //db
 const New=require('../databases/New')
 
+function extractTickers(ticker_sentiment) {
+    let tickersArray = []
+    for(let tick_sentiment of ticker_sentiment) {
+        tick_sentiment.map(el => tickersArray.push(el.ticker))
+    }
+    return tickersArray
+}
+
 router.get('/',async(req,res)=>{
     try {
         const key=process.env.ALPHA_VANTAGE_BASE_URL
@@ -27,8 +35,14 @@ router.get('/',async(req,res)=>{
                         banner:element.banner_image,
                         source:element.source,
                         topics:element.topics.map(item=>item.topic),
+                        ticker_sentiment : element.ticker_sentiment.map(el=>({
+                            ticker : el.ticker ,
+                            relevance_score : el.relevance_score ,
+                            ticker_sentiment_score : el.ticker_sentiment_score
+                        })) ,
                         sentiment:element.overall_sentiment_label
                     })),
+                    tickers : extractTickers(data.feed.map(element =>element.ticker_sentiment)),
                     timestamp:Date.now()
                 }).save()
                 return res.status(200).json(obs)
@@ -56,8 +70,14 @@ router.get('/',async(req,res)=>{
                             banner:element.banner_image,
                             source:element.source,
                             topics:element.topics.map(item=>item.topic),
+                            ticker_sentiment : element.ticker_sentiment.map(el=>({
+                                ticker : el.ticker ,
+                                relevance_score : el.relevance_score ,
+                                ticker_sentiment_score : el.ticker_sentiment_score
+                            })) ,
                             sentiment:element.overall_sentiment_label
                         })),
+                        tickers : extractTickers(data.feed.map(element =>element.ticker_sentiment)),
                         timestamp:Date.now()
                     }).save()
                     return res.status(200).json(obs)

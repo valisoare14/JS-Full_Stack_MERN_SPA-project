@@ -19,7 +19,7 @@ function Menu(){
             <button className="menu-item" >
                 <img src="/icos/analysis.svg" alt="Analysis logo" className="symbol"/> <span className="menu-item-text">Analysis</span>
             </button>
-            <button className="menu-item" >
+            <button className="menu-item" onClick={()=>navigate('/marketsentiment')}>
                 <img src="/icos/sentiment.svg" alt="Sentiment logo" className="symbol"/> <span className="menu-item-text ">Sentiment</span>
             </button>
             <button className="menu-item" >
