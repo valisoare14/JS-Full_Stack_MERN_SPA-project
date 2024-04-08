@@ -11,8 +11,14 @@ const NewsSchema= new mongoose.Schema({
         banner:String,
         source:String,
         topics:[String],
+        ticker_sentiment : [{
+            ticker : String,
+            relevance_score : Number,
+            ticker_sentiment_score : Number
+        }],
         sentiment:String
     }],
+    tickers : [String],
     timestamp:Date
 },{versionKey:false})
 

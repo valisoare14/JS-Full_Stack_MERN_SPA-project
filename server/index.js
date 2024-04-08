@@ -16,6 +16,8 @@ const stockRoutes = require('./routes/stocks')
 const cryptocurrenciesRoutes = require('./routes/cryptocurrencies')
 const commoditiesRoutes = require('./routes/commodities')
 const alarmsRoutes = require('./routes/alarms')
+const feedbacksRoutes = require('./routes/feedbacks')
+const symbolsRoutes = require('./routes/symbols')
 
 //MDB
 const Notification = require('./databases/Notification')
@@ -44,33 +46,14 @@ app.use('/stocks' , stockRoutes)
 app.use('/cryptocurrencies',cryptocurrenciesRoutes)
 app.use('/commodities',commoditiesRoutes)
 app.use('/alarms',verifyToken,alarmsRoutes)
+app.use('/feedbacks' ,verifyToken ,feedbacksRoutes)
+app.use('/symbols', symbolsRoutes)
 
 app.get('/', function (req, res) {
     res.status(200).send('Hello World')
 })
 
-app.delete('/cleardatabase',async(req,res)=>{
-    try {
-        const decoded = jwt.verify(req.body.token, process.env.JASON_WEB_TOKEN);
-        const userId = decoded._id
-        if(!userId) {
-            return res.status(400).json({message :"User never logged !"})
-        }
-        const user = await User.findOne({
-            _id : userId
-        })
-        if(!user) {
-            return res.status(400).json({message :"User not found !"})
-        }
-        await Notification.deleteMany({
-            userId : userId
-        })
-        return res.status(200).json({message:"All notifications were deleted !"})
-    } catch (error) {
-        console.error(error)
-        return res.status(400).json({message:error.message})
-    }
-})
+
 
 app.listen(5000,()=>{
     console.log("Server is running on port 5000...")

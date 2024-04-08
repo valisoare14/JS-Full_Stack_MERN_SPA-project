@@ -31,7 +31,7 @@ function Navbar(){
     }
 
     return(
-        <div className='fixed w-screen inset-0 h-16.4 z-50 flex justify-between p-4 bg-green-600 rounded-md mr-1'>
+        <div className='fixed w-screen inset-0 h-10vh z-50 flex justify-between p-4 bg-green-600 rounded-md mr-1'>
             <img src='/icos/menu-hamburger.svg' className='symbol cursor-pointer' onClick={()=>{token?dispatch(setMenu(!menu)):navigate('/login')}}/>
             <div className='flex items-center gap-1 sm:gap-5'>
                 <img src={`/icos/${onNotify?'notificationdot.png':'notification.svg'}` } alt="Notification logo" className="symbol cursor-pointer" onClick={()=>{dispatch(setNotificationCenter(!notificationCenter));dispatch(setOnNotify(false))}}/>

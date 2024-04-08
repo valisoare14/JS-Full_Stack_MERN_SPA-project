@@ -27,7 +27,7 @@ function New(params){
            <div className="flex w-full justify-around items-start h-1/6 rounded-bl-md rounded-br-md text-xxs md:text-sm p-2">
                 <p className="align-middle">SENTIMENT: {item.sentiment}</p>
                 <p className="underline decoration-sky-500">source: {item.source}</p>
-                <a href={item.url} target="_blank" rel="noopener noreferrer" className="truncate">read mode :<img src="/icos/www.svg" className="w-5 h-5 inline"/></a>
+                <a href={item.url} target="_blank" rel="noopener noreferrer" className="truncate">read more :<img src="/icos/www.svg" className="w-5 h-5 inline"/></a>
            </div>
         </div>
     )

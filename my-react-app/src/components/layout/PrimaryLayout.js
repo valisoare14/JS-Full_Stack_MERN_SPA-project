@@ -13,7 +13,7 @@ function PrimaryLayout({ children }) {
       <>
         <Navbar />
         {menu&&<Menu />}
-        <div className={`fixed top-16.4 ${menu?'left-4/5':''} mt-1 rounded-md border border-black border-2  ${menu?'w-4/5':'w-full'} h-screen overflow-auto flex flex-col items-center `}>
+        <div className={`fixed top-10vh ${menu?'left-4/5':''} mt-1 rounded-md border border-black border-2  ${menu?'w-4/5':'w-full'} h-90vh overflow-auto flex flex-col items-center `}>
           {children}
         </div>
         {notificationCenter

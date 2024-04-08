@@ -30,7 +30,6 @@ function Login(){
                 throw new Error(data.message)
             }
             sessionStorage.setItem('token',data.data)
-            localStorage.setItem('token',data.data)
             dispatch(setToken(data.data))
             await pushNotification(data.message , sessionStorage.getItem('token'))
             dispatch(setOnNotify(true))
