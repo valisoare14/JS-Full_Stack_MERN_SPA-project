@@ -116,7 +116,7 @@ router.put('/', async(req , res)=>{
         const user = await User.findOne({
             _id : req.userId
         })
-        console.log(req.body)
+        
         if(!user) {
             return res.status(400).json({message : "User not found !"})
         }

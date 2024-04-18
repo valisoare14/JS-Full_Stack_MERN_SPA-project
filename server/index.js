@@ -18,6 +18,9 @@ const commoditiesRoutes = require('./routes/commodities')
 const alarmsRoutes = require('./routes/alarms')
 const feedbacksRoutes = require('./routes/feedbacks')
 const symbolsRoutes = require('./routes/symbols')
+const portfolioAssetRoutes = require('./routes/portfolioasset')
+const transactionsRoutes = require('./routes/transactions')
+const portfolioRoutes = require('./routes/portfolios')
 
 //MDB
 const Notification = require('./databases/Notification')
@@ -48,6 +51,9 @@ app.use('/commodities',commoditiesRoutes)
 app.use('/alarms',verifyToken,alarmsRoutes)
 app.use('/feedbacks' ,verifyToken ,feedbacksRoutes)
 app.use('/symbols', symbolsRoutes)
+app.use('/portfolioasset',verifyToken , portfolioAssetRoutes)
+app.use('/transactions',verifyToken , transactionsRoutes)
+app.use('/portfolio',verifyToken , portfolioRoutes)
 
 app.get('/', function (req, res) {
     res.status(200).send('Hello World')

@@ -14,7 +14,15 @@ const initialState={
     pushUpMessage:'',
     alertHistoryUpdate : false,
     assetDetails:false,
-    asset : null
+    asset : null,
+    portfolioCreationWindow : false,
+    portfolios : [],
+    assetToPortfolioWindow : false,
+    selectedPortfolio : null,
+    portfolioDeletionDialogWindow : false,
+    fullPortfolioAssetDetailsWindows : false,
+    portfolioAssets : [],
+    portfolioAssetsFullDetails : []
 }
 
 export const globalSlice=createSlice({
@@ -62,6 +70,30 @@ export const globalSlice=createSlice({
         },
         setAsset : (state , action)=>{
             state.asset = action.payload
+        },
+        setPortfolioCreationWindow : (state , action)=>{
+            state.portfolioCreationWindow = action.payload
+        },
+        setPortfolios : (state , action)=>{
+            state.portfolios = action.payload
+        },
+        setAssetToPortfolioWindow : (state , action)=>{
+            state.assetToPortfolioWindow = action.payload
+        },
+        setSelectedPortfolio : (state , action)=>{
+            state.selectedPortfolio = action.payload
+        },
+        setPortfolioDeletionDialogWindow : (state , action)=>{
+            state.portfolioDeletionDialogWindow = action.payload
+        },
+        setFullPortfolioAssetDetailsWindows : (state , action)=>{
+            state.fullPortfolioAssetDetailsWindows = action.payload
+        },
+        setPortfolioAssets : (state , action)=>{
+            state.portfolioAssets = action.payload
+        },
+        setPortfolioAssetsFullDetails : (state , action)=>{
+            state.portfolioAssetsFullDetails = action.payload
         }
     }
 })
@@ -69,5 +101,7 @@ export const globalSlice=createSlice({
 export const {setAssets,setLastUpdate,setCollection
     ,setError,setToken,setMenu,setLoading,setNotificationCenter
     ,setOnNotify,setWatchlistSymbols,setPushUpMessage,setAlertHistoryUpdate,
-    setAssetDetails ,setAsset
+    setAssetDetails ,setAsset,setPortfolioCreationWindow ,setPortfolios,
+    setAssetToPortfolioWindow,setSelectedPortfolio ,setPortfolioDeletionDialogWindow,
+    setFullPortfolioAssetDetailsWindows, setPortfolioAssets,setPortfolioAssetsFullDetails
 }=globalSlice.actions

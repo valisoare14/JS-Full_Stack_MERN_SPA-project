@@ -95,7 +95,7 @@ function Alert() {
                     </div>
                 </div>
                 <div className="flex w-full justify-around p-1 sm:p-3">
-                    <input type="number" value={targetPrice} min={0.00001} className="focus:outline-none p-1 border w-1/2 sm:w-auto" placeholder="target price" onChange={(e) => {
+                    <input type="number" value={targetPrice} min={0.01} className="focus:outline-none p-1 border w-1/2 sm:w-auto" placeholder="target price" step={0.01} onChange={(e) => {
                         setBtnDisabled(!(Number(e.target.value)!= 0 && choosedAsset))
                         setTargetPrice(Number(e.target.value))
                     }}/>

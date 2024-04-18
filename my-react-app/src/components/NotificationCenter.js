@@ -17,7 +17,7 @@ function NotificationCenter(){
         .catch(err=>console.error(err))
     },[])
     return(
-        <div className="fixed w-screen h-screen inset-0 bg-gray-400 bg-opacity-80">
+        <div className="fixed w-screen h-screen inset-0 bg-gray-400 bg-opacity-80 z-50">
             <div className="absolute transform w-4/5 xxs:w-3/5 h-2/5 sm:h-3/5 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-white rounded-md overflow-hidden">
                 <div className="flex flex-col w-full h-full">
                     <div className="flex justify-end">

@@ -13,6 +13,7 @@ import Watchlist from "./components/Watchlist";
 import Calculator from "./components/Calculator";
 import Alerts from "./components/alerts/Alerts";
 import MarketSentiment from "./components/MarketSentiment";
+import Portfolio from "./components/portfolio/Portfolio";
 
 function App() {
   const token = useSelector(state=>state.global.token)
@@ -35,6 +36,7 @@ function App() {
               <Route path="/calculator" element={token ?<PrimaryLayout><Calculator /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path="/alerts" element={token ?<PrimaryLayout><Alerts /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path="/marketsentiment" element={token ?<PrimaryLayout><MarketSentiment /></PrimaryLayout> : <Navigate replace to="/login" />} />
+              <Route path="/portfolio" element={token ?<PrimaryLayout><Portfolio /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path='/login' element={<Login/>}/>
               <Route path='/users/verify/:id/:token' element={<EmailVerification/>}/>
               <Route path="/register" element={<Register/>}/>

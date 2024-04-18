@@ -26,11 +26,11 @@ function MarketSentimentItem(props) {
                             <div>Investor's sentiment: </div>
                             <div className="font-thin">{item.investors_sentiment ?item.investors_sentiment:'-' }</div>
                         </div>
-                        {item.investors_score && <div className="flex w-30/100 rounded-md">
-                            <div style={{width:`${(item.investors_score+0.5) * 100}%`}} className="bg-green-600 text-center h-5 xs:h-10 rounded-l-md">
+                        {item.investors_score && <div className="flex w-30/100 rounded-md overflow-hidden">
+                            <div style={{width:`${(item.investors_score+0.5) * 100}%`}} className={`bg-green-600 text-center h-5 xs:h-10 rounded-l-md ${(item.investors_score+0.5)*100 === 100 && 'rounded-r-md'}`}>
                                 {(item.investors_score+0.5)*100}%
                             </div>
-                            <div style={{width : `${((item.investors_score-0.5) * -1)*100}%`}} className="bg-red-600 text-center h-5 xs:h-10 rounded-r-md"> 
+                            <div style={{width : `${((item.investors_score-0.5) * -1)*100}%`}} className={`bg-red-600 text-center h-5 xs:h-10 rounded-r-md ${((item.investors_score-0.5) * -1)*100 === 100 && 'rounded-l-md'}`}> 
                                 {((item.investors_score-0.5) * -1)*100}%
                             </div>
                         </div>}
@@ -40,11 +40,11 @@ function MarketSentimentItem(props) {
                             <div>Market sentiment: </div>
                             <div className="font-thin">{item.market_sentiment ?item.market_sentiment:'-' }</div>
                         </div>
-                        {item.market_score && <div className="flex w-30/100 rounded-md">
-                            <div style={{width:`${(item.market_score+0.5) * 100}%`}} className="bg-green-600 text-center h-5 xs:h-10 rounded-l-md">
+                        {item.market_score && <div className="flex w-30/100 rounded-md overflow-hidden">
+                            <div style={{width:`${(item.market_score+0.5) * 100}%`}} className={`bg-green-600 text-center h-5 xs:h-10 rounded-l-md ${(item.market_score+0.5)*100 === 100 && 'rounded-r-md'}`}>
                                 {((item.market_score+0.5)*100).toFixed()}%
                             </div>
-                            <div style={{width : `${((item.market_score-0.5) * -1)*100}%`}} className="bg-red-600 text-center h-5 xs:h-10 rounded-r-md"> 
+                            <div style={{width : `${((item.market_score-0.5) * -1)*100}%`}} className={`bg-red-600 text-center h-5 xs:h-10 rounded-r-md ${((item.market_score-0.5) * -1)*100 === 100 && 'rounded-l-md'}`}> 
                                 {(((item.market_score-0.5) * -1)*100).toFixed()}%
                             </div>
                         </div>}

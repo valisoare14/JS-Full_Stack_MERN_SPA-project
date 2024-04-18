@@ -1,7 +1,10 @@
 import { useSelector , useDispatch } from "react-redux"
-import { setAssetDetails } from "../store/slices/slice"
+import { setAssetDetails , setAssetToPortfolioWindow, setPortfolioCreationWindow , setPortfolios } from "../store/slices/slice"
 import {changeDateFormat} from'../utils/changeDateFormat'
 import Feedback from "./layout/Feedback"
+import {getUserPortfolios} from "../api_s/getUserPortfolios"
+import PortfolioCreationWindow from "./PortfolioCreationWindow"
+import AssetToPortfolioWindow from "./AssetToPortfolioWindow"
 
 function FullItemDetails() {
     const dispatch = useDispatch()
@@ -9,6 +12,20 @@ function FullItemDetails() {
     const asset = useSelector(state => state.global.asset)
     const collection = useSelector(state => state.global.collection)
     const token = useSelector(state=> state.global.token)
+    const portfolioCreationWindow = useSelector(state => state.global.portfolioCreationWindow)
+    const assetToPortfolioWindow = useSelector(state => state.global.assetToPortfolioWindow)
+    
+    
+    async function manageAssetToPortfolio() {
+        getUserPortfolios(token).then(data => {
+            dispatch(setPortfolios(data))
+            if(data.length == 0) {
+                dispatch(setPortfolioCreationWindow(!portfolioCreationWindow))
+            } else {
+                dispatch(setAssetToPortfolioWindow(!assetToPortfolioWindow))
+            }
+        }).catch(err => console.error(err))
+    }
 
     function changeFormat(value) {
         if(value) {
@@ -80,11 +97,12 @@ function FullItemDetails() {
                 <div className="flex items-center w-full">
                     <Feedback asset={asset}/>
                     <div className="flex justify-center w-40/100 ">
-                        <button className="bg-sky-600 rounded-md w-full xxs:w-75/100 sm:w-50/100 text-xxxs xs:text-xxs sm:text-xs">
-                            add to portfolio
+                        <button className="bg-sky-600 rounded-md w-full xxs:w-75/100 sm:w-50/100 text-xxxs xs:text-xxs sm:text-xs text-white"
+                                onClick={()=>manageAssetToPortfolio()}
+                        >
+                            add to <br/> portfolio
                         </button>
                     </div>
-                    
                 </div>
                 
                 }
@@ -131,6 +149,12 @@ function FullItemDetails() {
                 </ul>
                 }
             </div>
+            {portfolioCreationWindow &&
+                <PortfolioCreationWindow portfolioCreationIntention={false}/>
+            }
+            {assetToPortfolioWindow &&
+                <AssetToPortfolioWindow fromPortfolio={false}/>
+            }
         </div>
     )
 }

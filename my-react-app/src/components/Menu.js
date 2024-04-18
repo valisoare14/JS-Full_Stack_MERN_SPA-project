@@ -13,7 +13,7 @@ function Menu(){
             <button className="menu-item" onClick={()=>navigate('/calendar')}>
                 <img src="/icos/calendar.svg" alt="Calendar logo" className="symbol"/> <span className="menu-item-text">Calendar</span>
             </button>
-            <button className="menu-item" >
+            <button className="menu-item" onClick={()=>navigate('/portfolio')}>
                 <img src="/icos/portfolio.svg" alt="Portfolio logo" className="symbol"/> <span className="menu-item-text">Portfolio</span>
             </button>
             <button className="menu-item" >

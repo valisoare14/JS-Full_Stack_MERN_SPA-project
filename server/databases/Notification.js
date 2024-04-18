@@ -6,7 +6,10 @@ const NotificationSchema=new mongoose.Schema({
       ref : 'user'
    },
    message:String,
-   timestamp:Date
+   timestamp: {
+      type : Date ,
+      expires : 14400
+   }
 },{ versionKey: false })
 
 
