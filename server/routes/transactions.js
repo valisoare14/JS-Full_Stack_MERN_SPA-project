@@ -121,14 +121,14 @@ router.delete('/' , async(req,res)=>{
             return res.status(400).json({message: 'The target transaction cannot be deleted anymore !'})
         }
 
-        let old_portfolio_asset = undefined
+        let new_portfolio_asset = undefined
 
         if (transaction.type === "BUY") {
             const old_mean_acquision_price = (portfolio_asset.mean_acquisition_price*portfolio_asset.quantity - 
                 transaction.quantity*transaction.price)/
                 (portfolio_asset.quantity - transaction.quantity == 0 ? 1 : portfolio_asset.quantity - transaction.quantity)
             console.log(old_mean_acquision_price)
-            old_portfolio_asset = await PortfolioAsset.findOneAndUpdate({
+            new_portfolio_asset = await PortfolioAsset.findOneAndUpdate({
                 _id : portfolio_asset._id
             },{
                 $set : {
@@ -137,7 +137,7 @@ router.delete('/' , async(req,res)=>{
                 }
             },{new : true})
         } else {
-            old_portfolio_asset = await PortfolioAsset.findOneAndUpdate({
+            new_portfolio_asset = await PortfolioAsset.findOneAndUpdate({
                 _id : portfolio_asset._id
             },{
                 $set : {
@@ -149,7 +149,7 @@ router.delete('/' , async(req,res)=>{
             _id : transaction._id
         })
 
-        return res.status(200).json({data : old_portfolio_asset , message : "Transaction deleted successfully !"})
+        return res.status(200).json({data : new_portfolio_asset , message : "Transaction deleted successfully !"})
     } catch (error) {
         console.error(error)
         return res.status(400).json({message:error.message})

@@ -85,6 +85,10 @@ function Portfolio(){
             const realized_profit = portfolioAssetsFullDetails.
                 map(el => el.transactions).reduce((s,e) =>s.concat(e) , []).
                 reduce((s,t) => s+=t.realized_profit , 0).
+                toFixed(2)       
+            const fees = portfolioAssetsFullDetails.
+                map(el => el.transactions).reduce((s,e) =>s.concat(e) , []).
+                reduce((s,t) => s+= (t.fee?t.fee:0) , 0).
                 toFixed(2)                                                   
             
             return {
@@ -93,7 +97,8 @@ function Portfolio(){
                 "initial_investment" : initial_investment,
                 "holdings_value" : holdings_value,
                 "realized_pnl" : realized_profit,
-                "unrealized_pnl" : (market_value - holdings_value).toFixed(2)
+                "unrealized_pnl" : (market_value - holdings_value).toFixed(2),
+                "fees" : fees
             }
         } else {
             return null
@@ -172,22 +177,34 @@ function Portfolio(){
                             <div className="text-xs xxs:sm xs:text-base sm:text-lg font-bold mt-4">Portfolio performance</div>
                             <div className="flex flex-col mt-1 mb-4">
                                 <div className="flex justify-around border-b-1">
-                                    <div className="w-1/2">Initial Investment</div>
-                                    <div className="w-1/2 text-end">{portfolioPerformance.initial_investment}$</div>
-                                </div>
-                                <div className="flex justify-around border-b-1">
-                                    <div className="w-1/2">&nbsp;&nbsp;Holdings value</div>
+                                    <div className="w-1/2">Holdings value{'(acq.)'}</div>
                                     <div className="w-1/2 text-end">{portfolioPerformance.holdings_value}$</div>
                                 </div>
                                 <div className="flex justify-around border-b-1">
-                                    <div className="w-1/2">&nbsp;&nbsp;Realised Pnl</div>
-                                    <div className={`w-1/2 text-end ${portfolioPerformance.realized_pnl > 0 ? 'text-green-600' : portfolioPerformance.realized_pnl < 0 && 'text-red-600'}`}>{portfolioPerformance.realized_pnl > 0 && '+'}{portfolioPerformance.realized_pnl}$</div>
+                                    <div className="w-1/2">Holdings value{'(market)'}</div>
+                                    <div className={`hidden xxs:block ${portfolioPerformance.market_value-portfolioPerformance.holdings_value > 0 ? 'text-green-600' : portfolioPerformance.market_value-portfolioPerformance.holdings_value!=0 && 'text-red-600'}`}>
+                                            {`${portfolioPerformance.market_value-portfolioPerformance.holdings_value>0?'+':''}${(portfolioPerformance.market_value-portfolioPerformance.holdings_value).toFixed(2)}$(${portfolioPerformance.market_value-portfolioPerformance.holdings_value>0?'+':''}${(((portfolioPerformance.market_value-portfolioPerformance.holdings_value)/portfolioPerformance.holdings_value)*100).toFixed(2)}%)`}
+                                    </div>
+                                    <div className="w-1/2 text-end xxs:flex-col">
+                                        <div>{portfolioPerformance.market_value}$</div>
+                                        <div className={`block xxs:hidden ${portfolioPerformance.market_value-portfolioPerformance.holdings_value > 0 ? 'text-green-600' : portfolioPerformance.market_value-portfolioPerformance.holdings_value!=0 && 'text-red-600'}`}>
+                                            {`${portfolioPerformance.market_value-portfolioPerformance.holdings_value>0?'+':''}${(portfolioPerformance.market_value-portfolioPerformance.holdings_value).toFixed(2)}$(${portfolioPerformance.market_value-portfolioPerformance.holdings_value>0?'+':''}${(((portfolioPerformance.market_value-portfolioPerformance.holdings_value)/portfolioPerformance.holdings_value)*100).toFixed(2)}%)`}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-around border-b-1">
+                                    <div className="w-1/2">Total fees</div>
+                                    <div className="w-1/2 text-end">{portfolioPerformance.fees}$</div>
+                                </div>
+                                <div className="flex justify-around border-b-1">
+                                    <div className="w-1/2">Initial Investment</div>
+                                    <div className="w-1/2 text-end">{portfolioPerformance.initial_investment}$</div>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 mb-4">
                                 <div className="flex flex-col">
-                                    <div className="text-center">Market value</div>
-                                    <div className="text-center">{portfolioPerformance.market_value}$</div>
+                                    <div className="text-center">Realised Pnl</div>
+                                    <div className={`text-center ${portfolioPerformance.realized_pnl > 0 ? 'text-green-600' : portfolioPerformance.realized_pnl < 0 && 'text-red-600'}`}>{portfolioPerformance.realized_pnl > 0 && '+'}{portfolioPerformance.realized_pnl}$</div>
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="text-center">Unrealised PnL</div>

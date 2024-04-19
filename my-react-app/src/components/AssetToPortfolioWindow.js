@@ -4,7 +4,7 @@ import { useEffect , useState } from "react"
 import { getPortfolioAssetsByPortfolioId } from "../api_s/getPortfolioAssetsByPortfolioId"
 import {addPortfolioAsset} from "../api_s/addPortfolioAsset"
 import { pushNotification } from "../api_s/pushNotification"
-import { setOnNotify , setPushUpMessage } from "../store/slices/slice"
+import { setOnNotify , setPushUpMessage , setPortfolioAssets , setPortfolioAssetsFullDetails} from "../store/slices/slice"
 import {addTransaction} from "../api_s/addTransaction"
 
 function AssetToPortfolioWindow({fromPortfolio}){
@@ -14,6 +14,8 @@ function AssetToPortfolioWindow({fromPortfolio}){
     const token = useSelector(state => state.global.token)
     const portfolios = useSelector(state => state.global.portfolios)
     const selectedPortfolio = useSelector(state => state.global.selectedPortfolio)
+    const portfolioAssets = useSelector(state => state.global.portfolioAssets)
+    const portfolioAssetsFullDetails = useSelector(state => state.global.portfolioAssetsFullDetails)
     const [transactionType , setTransactionType] = useState('BUY')
     const [sellBtnDisabled , setSellBtnDisabled] = useState(false)
     const [portfolioAsset , setPortfolioAsset] = useState(null)
@@ -40,6 +42,17 @@ function AssetToPortfolioWindow({fromPortfolio}){
                 then(async data => {
                     if(data.data) {
                         setPortfolioAsset(data.data.portfolioasset)
+                        if(fromPortfolio) {
+                            dispatch(setPortfolioAssets([...portfolioAssets.
+                                filter(pa => pa._id !== data.data.portfolioasset._id ),
+                                data.data.portfolioasset]))
+                            const npfa = portfolioAssetsFullDetails.
+                            find(pfa => pfa.symbol === data.data.portfolioasset.symbol && pfa.market === data.data.portfolioasset.market)
+                            dispatch(setPortfolioAssetsFullDetails([...portfolioAssetsFullDetails.
+                                filter(pfa => pfa.symbol !== data.data.portfolioasset.symbol && pfa.market !== data.data.portfolioasset.market),
+                                {...npfa , transactions : [...npfa.transactions , data.data.transaction]}
+                            ]))
+                        }
                     }
                     await pushNotification(data.message , token)
                     dispatch(setOnNotify(true))
@@ -157,7 +170,7 @@ function AssetToPortfolioWindow({fromPortfolio}){
                         <div className="flex flex-col md:mb-2">
                             <div >current price : {asset.current_price}$</div>
                             {portfolioAsset && portfolioAsset.quantity!=0 && <div className="text-sky-600">mean portfolio price: {portfolioAsset.mean_acquisition_price.toFixed(2)}$</div>}
-                            {portfolioAsset && transactionType==="SELL" && <div className="text-sky-600">holdings: {portfolioAsset.quantity} {portfolioAsset.symbol}</div>}
+                            {portfolioAsset && transactionType==="SELL" && <div className="text-sky-600">holdings: {portfolioAsset.quantity.toFixed(3)} {portfolioAsset.symbol}</div>}
                         </div>
                     </div>
                     <div className="flex flex-col xxs:flex-row w-full justify-between pl-1 pr-1 sm:pl-10 sm:pr-10 xxs:mt-1 xxs:mb-1">

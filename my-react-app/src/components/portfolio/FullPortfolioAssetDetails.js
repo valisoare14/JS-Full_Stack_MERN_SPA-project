@@ -5,10 +5,13 @@ import Feedback from '../layout/Feedback'
 import { getTransactions } from '../../api_s/getTransactions'
 import {changeDateFormat} from '../../utils/changeDateFormat'
 import { deleteTransaction } from '../../api_s/deleteTransaction'
-import { setPushUpMessage , setOnNotify , setAssetToPortfolioWindow , setAsset , setPortfolioAssets , setPortfolioAssetsFullDetails} from '../../store/slices/slice'
+import { setPushUpMessage , setOnNotify , setAssetToPortfolioWindow ,
+     setAsset , setPortfolioAssets ,
+      setPortfolioAssetsFullDetails , setPortfolioAssetDeletionDialogWindow} from '../../store/slices/slice'
 import {pushNotification} from '../../api_s/pushNotification'
 import AssetToPortfolioWindow from '../AssetToPortfolioWindow'
 import { deletePortfolioAsset } from '../../api_s/deletePortfolioAsset'
+import PortfolioAssetDeletionDialogWindow from './PortfolioAssetDeletionDialogWindow'
 
 function FullPortfolioAssetDetails(props) {
     const dispatch = useDispatch()
@@ -16,6 +19,7 @@ function FullPortfolioAssetDetails(props) {
     const assetToPortfolioWindow = useSelector(state => state.global.assetToPortfolioWindow)
     const portfolioAssets = useSelector(state => state.global.portfolioAssets)
     const portfolioAssetsFullDetails = useSelector(state => state.global.portfolioAssetsFullDetails)
+    const portfolioAssetDeletionDialogWindow = useSelector(state => state.global.portfolioAssetDeletionDialogWindow)
     const {
         asset,
         portfolioAsset ,
@@ -25,14 +29,22 @@ function FullPortfolioAssetDetails(props) {
     } = props
     const [seeMore , setSeeMore] = useState(false)
     const [seeTransactions , setSeeTransactions] = useState(false)
-    const [transactions , setTransactions] = useState([])
     const [selectedTransaction , setSelectedTransaction] = useState(null)
     const [mostRecentTransaction , setMostRecentTransaction] = useState(null)
+    const [transactions , setTransactions] = useState([])
 
     function calcularedUnrealisedPnl(t) {
         const price = t.price
         const quantity = t.quantity
         return t.type === 'SELL' ? 0 : asset.current_price * quantity - price * quantity
+    }
+
+    function compute24hChange(){
+        const marketValue = asset.current_price * portfolioAsset.quantity
+        const oldMarketValue = (asset.current_price - asset.price_change_24h) * portfolioAsset.quantity
+        const change = marketValue - oldMarketValue
+        const changePercentage = (((change)/(oldMarketValue != 0 ? oldMarketValue : 1))*100).toFixed(2)
+        return `${change > 0 ? '+' :''}${change.toFixed(2)}$(${change > 0 ? '+' :''}${changePercentage}%)`
     }
 
     async function handleTransactionDeletion(t) {
@@ -45,25 +57,18 @@ function FullPortfolioAssetDetails(props) {
                 const result = await deleteTransaction(token , t._id)
                 if(result.data) {
                     setTransactions(transactions.filter(tr => tr._id !== t._id))
+                    dispatch(setPortfolioAssets([...portfolioAssets.filter(pa => pa._id != result.data._id),result.data]))
+                    dispatch(setPortfolioAssetsFullDetails([...portfolioAssetsFullDetails.filter(paf => paf.symbol !== result.data.symbol && paf.market !== result.data.market),
+                        {
+                            ...portfolioAssetsFullDetails.find(pa => pa.symbol === result.data.symbol && pa.market === result.data.market),
+                            transactions : [...portfolioAssetsFullDetails.find(pa => pa.symbol === result.data.symbol && pa.market === result.data.market)?.transactions.filter(tr => tr._id !=t._id)]
+                        }
+                    ]))
                 }
                 await pushNotification(result.message , token)
                 dispatch(setOnNotify(true))
                 dispatch(setPushUpMessage(result.message))
             }
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    async function handlePortfolioAssetDeletion() {
-        try {
-            const result = await deletePortfolioAsset(token , portfolioAsset._id , portfolioAsset.symbol)
-            await pushNotification(result.message , token)
-            dispatch(setOnNotify(true))
-            dispatch(setPushUpMessage(result.message))
-            const portfolioAssetsFiltered = portfolioAssets.filter(pa => pa._id !== portfolioAsset._id)
-            dispatch(setPortfolioAssets(portfolioAssetsFiltered))
-            dispatch(setPortfolioAssetsFullDetails(portfolioAssetsFullDetails.filter(el => portfolioAssetsFiltered.find(e => e.symbol === el.symbol && e.market === el.market) ? true : false)))
         } catch (error) {
             console.error(error)
         }
@@ -89,10 +94,10 @@ function FullPortfolioAssetDetails(props) {
             </div>
             {!loading?
             <div className={`table-cell ${unrealizedPnl < 0 ? 'text-red-600' : unrealizedPnl != 0 && 'text-green-600'}`}>
-                {usNumberFormat(unrealizedPnl.toFixed(2))}$
+                {unrealizedPnl>0 ? '+' :''}{usNumberFormat(unrealizedPnl.toFixed(2))}$
             </div> : <div className="table-cell">-</div>}
             <div className={`table-cell ${realizedPnl < 0 ? 'text-red-600' : realizedPnl != 0 && 'text-green-600'}`}>
-                {realizedPnl ? `${usNumberFormat(realizedPnl.toFixed(2))}$` : <span className='text-gray-400 text-center'>-</span>}
+                {realizedPnl ? `${realizedPnl>0 ? '+':''}${usNumberFormat(realizedPnl.toFixed(2))}$` : <span className='text-gray-400 text-center'>-</span>}
             </div>
             <div className="table-cell">
             <img src='/icos/plus-blue.svg'
@@ -112,36 +117,40 @@ function FullPortfolioAssetDetails(props) {
                         <div className='flex-grow text-xxs xxs:text-xs xs:text-sm sm:text-base text-center font-bold'>{asset.name}</div>
                         <img src='/icos/minus.png' className="symbol cursor-pointer mr-1" onClick={()=>setSeeMore(!seeMore)}/>
                     </div>
-                    <div className='grid grid-cols-3 m-1 xs:m-3 gap-1 xs:gap-2 sm:gap-4'>
-                        <div className='flex-col'>
-                            <div className='text-center'>Unrealized PnL</div>
-                            <div className={`text-center ${unrealizedPnl < 0 ? 'text-red-600' : unrealizedPnl != 0 && 'text-green-600'}`}>{usNumberFormat(unrealizedPnl)}$</div>
-                        </div>
-                        <div className='flex-col'>
-                            <div className='text-center'>Realized PnL</div>
-                            <div className={`text-center ${realizedPnl < 0 ? 'text-red-600' : realizedPnl != 0 && 'text-green-600'}`}>{usNumberFormat(realizedPnl)}$</div>
-                        </div>
+                    <div className='w-full text-center'>
+                        {'24h change:  '}<span className={`${compute24hChange().substring(0,1)==="+" ? 'text-green-600' : compute24hChange().substring(0,1)==="-" && 'text-red-600'}`}>{compute24hChange()}</span>
+                    </div>
+                    <div className='grid grid-cols-3 m-1 xs:m-3 gap-y-4 xs:gap-y-4 sm:gap-y-4'>
                         <div className='flex-col'>
                             <div className='text-center'>Market Price</div>
                             <div className='text-center'>{usNumberFormat(asset.current_price)}$</div>
                         </div>
                         <div className='flex-col'>
+                            <div className='text-center'>Unrealised PnL</div>
+                            <div className={`text-center ${unrealizedPnl < 0 ? 'text-red-600' : unrealizedPnl != 0 && 'text-green-600'}`}>{unrealizedPnl>0 ? '+':''}{usNumberFormat(unrealizedPnl)}$</div>
+                        </div>
+                        <div className='flex-col'>
+                            <div className='text-center'>Realised PnL</div>
+                            <div className={`text-center ${realizedPnl < 0 ? 'text-red-600' : realizedPnl != 0 && 'text-green-600'}`}>{realizedPnl>0?'+':''}{usNumberFormat(realizedPnl)}$</div>
+                        </div>
+                        <div className='flex-col border-t-1'>
                             <div className='text-center'>Quantity</div>
                             <div className='text-center'>{usNumberFormat(portfolioAsset.quantity)} {asset.symbol}</div>
                         </div>
                         <div></div>
-                        <div className='flex-col'>
+                        <div className='flex-col border-t-1'>
                             <div className='text-center'>Average Acq. Price</div>
-                            <div className={`text-center ${portfolioAsset.quantity != 0 && portfolioAsset.mean_acquisition_price < asset.current_price ? 'text-green-600' : 'text-red-600'}`}>{portfolioAsset.quantity !== 0 ? `${usNumberFormat(portfolioAsset.mean_acquisition_price)}$` : '-'}</div>
+                            <div className={`text-center ${portfolioAsset.quantity != 0 && portfolioAsset.mean_acquisition_price < asset.current_price ? 'text-green-600' : portfolioAsset.mean_acquisition_price > asset.current_price && 'text-red-600'}`}>{portfolioAsset.quantity !== 0 ? `${usNumberFormat(portfolioAsset.mean_acquisition_price)}$` : '-'}</div>
                         </div>
-                        <div className='flex-col'>
-                            <div className='text-center'>Holdings value</div>
+                        <div className='flex-col border-t-1'>
+                            <div className='text-center'>Holdings value(acq.)</div>
                             <div className="text-center">{usNumberFormat((portfolioAsset.quantity * portfolioAsset.mean_acquisition_price).toFixed(2))}$</div>
                         </div>
                         <div></div>
-                        <div className='flex-col'>
-                            <div className='text-center'>Market value</div>
+                        <div className='flex-col border-t-1'>
+                            <div className='text-center'>Holdings value(market)</div>
                             <div className="text-center">{usNumberFormat((portfolioAsset.quantity * asset.current_price).toFixed(2))}$</div>
+                            <div className={`text-center ${(portfolioAsset.quantity * asset.current_price - portfolioAsset.quantity * portfolioAsset.mean_acquisition_price) > 0 ?'text-green-600' : (portfolioAsset.quantity * asset.current_price - portfolioAsset.quantity * portfolioAsset.mean_acquisition_price) < 0 && 'text-red-600'}`}>{(portfolioAsset.quantity * asset.current_price - portfolioAsset.quantity * portfolioAsset.mean_acquisition_price)>0 ? '+':''}{(portfolioAsset.quantity * asset.current_price - portfolioAsset.quantity * portfolioAsset.mean_acquisition_price).toFixed(2)}$({(portfolioAsset.quantity * asset.current_price - portfolioAsset.quantity * portfolioAsset.mean_acquisition_price) > 0 ?'+':''}{(((portfolioAsset.quantity * asset.current_price - portfolioAsset.quantity * portfolioAsset.mean_acquisition_price)/(portfolioAsset.quantity * portfolioAsset.mean_acquisition_price ?portfolioAsset.quantity * portfolioAsset.mean_acquisition_price:1 ))*100).toFixed(2)}%)</div>
                         </div>
                     </div>
                     <div className='flex items-center'>
@@ -158,7 +167,7 @@ function FullPortfolioAssetDetails(props) {
                             </button>
                             <button
                                 className="bg-red-600 rounded-md w-60/100 h-20/100 text-xxxs xs:text-xxs sm:text-xs text-white"
-                                onClick={async () => await handlePortfolioAssetDeletion()}
+                                onClick={() => dispatch(setPortfolioAssetDeletionDialogWindow(!portfolioAssetDeletionDialogWindow))}
                             >
                                 delete from<br/> portfolio
                             </button>
@@ -204,11 +213,11 @@ function FullPortfolioAssetDetails(props) {
                                     </div>
                                     <div className='flex-col bg-white rounded-md'>
                                         <div className='text-center'>realised PnL</div>
-                                        <div className={`text-center ${t.realized_profit < 0 ? 'text-red-600' : t.realized_profit != 0 && 'text-green-600'}`}>{t.realized_profit.toFixed(2)}$</div>
+                                        <div className={`text-center ${t.realized_profit < 0 ? 'text-red-600' : t.realized_profit != 0 && 'text-green-600'}`}>{t.realized_profit > 0 ? '+' :''}{t.realized_profit.toFixed(2)}$</div>
                                     </div>
                                     <div className='flex-col bg-white rounded-md'>
                                         <div className='text-center'>unrealised PnL</div>
-                                        <div className={`text-center ${unrealisedPnl < 0 ? 'text-red-600' : unrealisedPnl != 0 && 'text-green-600'}`}>{unrealisedPnl.toFixed(2)}$</div>
+                                        <div className={`text-center ${unrealisedPnl < 0 ? 'text-red-600' : unrealisedPnl != 0 && 'text-green-600'}`}>{unrealisedPnl > 0 ?'+':''}{unrealisedPnl.toFixed(2)}$</div>
                                     </div>
                                     <div></div>
                                     <button 
@@ -231,6 +240,12 @@ function FullPortfolioAssetDetails(props) {
                 <> 
                     <div className='absolute inset-0 bg-gray-400 bg-opacity-15'></div>
                     <AssetToPortfolioWindow fromPortfolio={true}/>
+                </>
+            }
+            {portfolioAssetDeletionDialogWindow &&
+                <>
+                    <div className='absolute inset-0 bg-gray-400 bg-opacity-60'></div>
+                    <PortfolioAssetDeletionDialogWindow portfolioAsset={{...portfolioAsset,name:asset.name}}/>
                 </>
             }
         </div>

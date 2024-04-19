@@ -22,7 +22,8 @@ const initialState={
     portfolioDeletionDialogWindow : false,
     fullPortfolioAssetDetailsWindows : false,
     portfolioAssets : [],
-    portfolioAssetsFullDetails : []
+    portfolioAssetsFullDetails : [],
+    portfolioAssetDeletionDialogWindow : false
 }
 
 export const globalSlice=createSlice({
@@ -94,7 +95,11 @@ export const globalSlice=createSlice({
         },
         setPortfolioAssetsFullDetails : (state , action)=>{
             state.portfolioAssetsFullDetails = action.payload
+        },
+        setPortfolioAssetDeletionDialogWindow : (state , action)=>{
+            state.portfolioAssetDeletionDialogWindow = action.payload
         }
+        
     }
 })
 
@@ -103,5 +108,6 @@ export const {setAssets,setLastUpdate,setCollection
     ,setOnNotify,setWatchlistSymbols,setPushUpMessage,setAlertHistoryUpdate,
     setAssetDetails ,setAsset,setPortfolioCreationWindow ,setPortfolios,
     setAssetToPortfolioWindow,setSelectedPortfolio ,setPortfolioDeletionDialogWindow,
-    setFullPortfolioAssetDetailsWindows, setPortfolioAssets,setPortfolioAssetsFullDetails
+    setFullPortfolioAssetDetailsWindows, setPortfolioAssets,setPortfolioAssetsFullDetails,
+    setPortfolioAssetDeletionDialogWindow
 }=globalSlice.actions
