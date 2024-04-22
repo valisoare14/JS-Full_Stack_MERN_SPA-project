@@ -23,7 +23,8 @@ const initialState={
     fullPortfolioAssetDetailsWindows : false,
     portfolioAssets : [],
     portfolioAssetsFullDetails : [],
-    portfolioAssetDeletionDialogWindow : false
+    portfolioAssetDeletionDialogWindow : false,
+    accountDeletionDialogWindow : false
 }
 
 export const globalSlice=createSlice({
@@ -98,6 +99,9 @@ export const globalSlice=createSlice({
         },
         setPortfolioAssetDeletionDialogWindow : (state , action)=>{
             state.portfolioAssetDeletionDialogWindow = action.payload
+        },
+        setAccountDeletionDialogWindow : (state , action)=>{
+            state.accountDeletionDialogWindow = action.payload
         }
         
     }
@@ -109,5 +113,5 @@ export const {setAssets,setLastUpdate,setCollection
     setAssetDetails ,setAsset,setPortfolioCreationWindow ,setPortfolios,
     setAssetToPortfolioWindow,setSelectedPortfolio ,setPortfolioDeletionDialogWindow,
     setFullPortfolioAssetDetailsWindows, setPortfolioAssets,setPortfolioAssetsFullDetails,
-    setPortfolioAssetDeletionDialogWindow
+    setPortfolioAssetDeletionDialogWindow, setAccountDeletionDialogWindow
 }=globalSlice.actions

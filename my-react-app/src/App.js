@@ -37,6 +37,7 @@ function App() {
               <Route path="/alerts" element={token ?<PrimaryLayout><Alerts /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path="/marketsentiment" element={token ?<PrimaryLayout><MarketSentiment /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path="/portfolio" element={token ?<PrimaryLayout><Portfolio /></PrimaryLayout> : <Navigate replace to="/login" />} />
+              <Route path="/account" element={token ?<PrimaryLayout><Account /></PrimaryLayout> : <Navigate replace to="/login" />} />
               <Route path='/login' element={<Login/>}/>
               <Route path='/users/verify/:id/:token' element={<EmailVerification/>}/>
               <Route path="/register" element={<Register/>}/>

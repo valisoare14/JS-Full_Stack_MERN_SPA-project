@@ -28,16 +28,21 @@ const User = mongoose.model("user", UserSchema);
 
 const validate = (data,usecase) => {
     var schema=null
-    if(usecase!="authentification"){
+    if(usecase ==="authentification"){
         schema = joi.object({
-            firstName: joi.string().required().label("First Name"),
-            lastName: joi.string().required().label("Last Name"),
             email: joi.string().email().required().label("Email"),
+            password:joi.string().required().label("Password"),
+        });
+    }
+    else if (usecase === "accountupdate") {
+        schema = joi.object({
             password:joi.string().required().label("Password"),
         });
     }
 	else{
         schema = joi.object({
+            firstName: joi.string().required().label("First Name"),
+            lastName: joi.string().required().label("Last Name"),
             email: joi.string().email().required().label("Email"),
             password:joi.string().required().label("Password"),
         });

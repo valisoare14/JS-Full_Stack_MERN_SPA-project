@@ -6,8 +6,7 @@ const FeedbackSchema = new mongoose.Schema({
         ref : 'user'
     },
     symbol : {
-        type : String,
-        unique : true
+        type : String
     },
     reaction : String,
     comment : String,

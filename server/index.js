@@ -4,7 +4,6 @@ const cors=require('cors')
 const express=require('express')
 
 const verifyToken = require('./utils/verifyToken')
-const jwt = require('jsonwebtoken')
 
 const usersRoutes=require('./routes/users')
 const authentificationRoutes=require('./routes/authentification')
@@ -21,10 +20,9 @@ const symbolsRoutes = require('./routes/symbols')
 const portfolioAssetRoutes = require('./routes/portfolioasset')
 const transactionsRoutes = require('./routes/transactions')
 const portfolioRoutes = require('./routes/portfolios')
+const verificationRoutes = require('./routes/verification')
 
 //MDB
-const Notification = require('./databases/Notification')
-const {User} = require('./databases/User')
 const mdbconnect=require('./databases/database')
 
 const app = express()
@@ -54,6 +52,8 @@ app.use('/symbols', symbolsRoutes)
 app.use('/portfolioasset',verifyToken , portfolioAssetRoutes)
 app.use('/transactions',verifyToken , transactionsRoutes)
 app.use('/portfolio',verifyToken , portfolioRoutes)
+app.use('/account',verifyToken , verificationRoutes)
+
 
 app.get('/', function (req, res) {
     res.status(200).send('Hello World')

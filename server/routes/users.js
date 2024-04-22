@@ -1,5 +1,5 @@
 const express=require('express')
-
+const verifyToken = require('../utils/verifyToken')
 const {User,validate} =require('../databases/User')
 const Token=require('../databases/Token')
 
@@ -78,5 +78,45 @@ router.get('/verify/:id/:token',async(req,res)=>{
         return res.status(500).json({message:"Internal server error !"})
     }
 })
+
+router.get('/user', verifyToken , async(req,res)=>{
+    try {
+        const user = await User.findOne({
+            _id : req.userId
+        })
+
+        if(!user) {
+            return re.status(400).json({message : "User not found !"})
+        }
+
+        return res.status(200).json({data : user , message : "User retrieved successfully !"})
+    } catch (error) {
+        console.error(error)
+        return res.status(400).json({
+            message : error.message
+        })
+    }
+})
+
+router.delete('/' ,verifyToken , async(req,res)=>{
+    try {
+        const user = await User.findOne({
+            _id : req.userId
+        })
+
+        if(!user) {
+            return res.status(400).json({message : 'User not found !'})
+        }
+
+        await User.findOneAndDelete({
+            _id : user._id
+        })
+
+        return res.status(200).json({message : "User deleted successfully !"})
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({message:"Internal server error !"})
+    }
+} )
 
 module.exports=router

@@ -86,6 +86,48 @@ router.delete('/' , async(req,res)=>{
     }
 })
 
+router.delete('/deleteall' , async(req,res)=>{
+    try {
+        const user = await User.findOne({
+            _id : req.userId
+        })
+
+        if(!user) {
+            return res.status(400).json({message: 'User not found !'})
+        }
+
+        const portfolios = await Portfolio.find({
+            userId : user._id
+        })
+
+        for(let portfolio of portfolios) {
+
+            const portfolio_assets = await PortfolioAsset.find({
+                portfolioId : portfolio._id
+            })
+
+            if(portfolio_assets.length > 0) {
+                portfolio_assets.forEach(async (p)=>{
+                    await Transaction.deleteMany({
+                        portfolio_asset_id : p._id
+                    })
+                    await PortfolioAsset.deleteOne({
+                        _id : p._id
+                    })
+                })
+            }
+
+            await Portfolio.deleteOne({
+                _id : portfolio._id
+            })
+        }
+        return res.status(200).json({message :'Portfolios deleted successfully !'})
+    } catch (error) {
+        console.error(error)
+        return res.status(400).json({message:error.message})
+    }
+})
+
 router.get('/' , async(req,res)=>{
     try {
         const user = await User.findOne({

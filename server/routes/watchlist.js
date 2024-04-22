@@ -87,4 +87,25 @@ router.delete('/',async(req,res)=>{
     }
 })
 
+router.delete('/deleteall' , async(req,res)=>{
+    try {
+        const user = await User.findOne({
+            _id : req.userId
+        })
+
+        if(!user) {
+            return res.status(400).json({message : "User not found !"})
+        }
+
+        await Watchlist.deleteMany({
+            userId : user._id
+        })
+
+        return res.status(200).json({message : "Watchlist assets deleted successfully !"})
+    } catch (error) {
+        console.error(error)
+        return res.status(400).json({message:error.message})
+    }
+})
+
 module.exports = router

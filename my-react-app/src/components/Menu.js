@@ -22,7 +22,7 @@ function Menu(){
             <button className="menu-item" onClick={()=>navigate('/marketsentiment')}>
                 <img src="/icos/sentiment.svg" alt="Sentiment logo" className="symbol"/> <span className="menu-item-text ">Sentiment</span>
             </button>
-            <button className="menu-item" >
+            <button className="menu-item"  onClick={()=>{navigate('/account')}}>
                 <img src="/icos/account.svg" alt="Account logo" className="symbol"/> <span className="menu-item-text">Account</span>
             </button>
             <button className="menu-item" onClick={()=>{navigate('/watchlist')}}>

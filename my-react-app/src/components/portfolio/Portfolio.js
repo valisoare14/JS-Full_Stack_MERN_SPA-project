@@ -7,6 +7,7 @@ import { setSelectedPortfolio , setPortfolioAssets  , setPortfolioAssetsFullDeta
 import { Link } from 'react-router-dom'
 import { getTransactionsByPortfolioAssetId } from "../../api_s/getTransactionsByPortfolioAssetId"
 import FullPortfolioAssetDetails from "./FullPortfolioAssetDetails"
+import PortfolioAssetsDistributionPieChart from "./PortfolioAssetsDistributionPieChart"
 
 function Portfolio(){
     const dispatch = useDispatch()
@@ -17,6 +18,7 @@ function Portfolio(){
     const portfolioAssetsFullDetails = useSelector(state => state.global.portfolioAssetsFullDetails)
     const [loading , setLoading] = useState(false)
     const [portfolioPerformance , setPortfolioPerformance] = useState(null)
+    const [piechart , setPieChart] = useState(false)
 
     function calculateUnrealizedPnl(fullAssetDetails) {
         const portfolioAsset = portfolioAssets.find(a => a.symbol === fullAssetDetails.symbol && a.market === fullAssetDetails.market)
@@ -111,6 +113,7 @@ function Portfolio(){
             getPortfolioAssetsByPortfolioId(token , selectedPortfolio._id).then(data=>{
                 dispatch(setPortfolioAssets(data))
                 if(data.length != 0) {
+                    setPieChart(true)
                     var promises = []
                     for(let market of ['stocks','cryptocurrencies','commodities']){
                         const filteredSymbolsByMarket = data.filter(el => el.market == market)
@@ -126,6 +129,8 @@ function Portfolio(){
                         
                         setLoading(false)
                     }).catch(err => console.error(err))
+                } else{
+                    setPieChart(false)
                 }
             }).catch(err => console.error(err))
         } else {
@@ -137,11 +142,15 @@ function Portfolio(){
     useEffect(()=>{
         dispatch(setSelectedPortfolio(null))
         dispatch(setPortfolioAssets([]))
+        setPieChart(false)
     },[portfolios])
 
     useEffect(()=>{
         if(portfolioAssetsFullDetails.length != 0 && portfolioAssets.length!= 0) {
+            setPieChart(true)
             setPortfolioPerformance(computePortfolioPerformance())
+        } else{
+            setPieChart(false)
         }
     },[portfolioAssetsFullDetails , portfolioAssets])
 
@@ -201,7 +210,7 @@ function Portfolio(){
                                     <div className="w-1/2 text-end">{portfolioPerformance.initial_investment}$</div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 mb-4">
+                            <div className="grid grid-cols-2">
                                 <div className="flex flex-col">
                                     <div className="text-center">Realised Pnl</div>
                                     <div className={`text-center ${portfolioPerformance.realized_pnl > 0 ? 'text-green-600' : portfolioPerformance.realized_pnl < 0 && 'text-red-600'}`}>{portfolioPerformance.realized_pnl > 0 && '+'}{portfolioPerformance.realized_pnl}$</div>
@@ -211,6 +220,15 @@ function Portfolio(){
                                     <div className={`text-center ${portfolioPerformance.unrealized_pnl > 0 ? 'text-green-600' : portfolioPerformance.unrealized_pnl < 0 && 'text-red-600'}`}>{portfolioPerformance.unrealized_pnl > 0 && '+'}{portfolioPerformance.unrealized_pnl}$</div>
                                 </div>
                             </div>
+                            {piechart && !loading &&
+                                <PortfolioAssetsDistributionPieChart key={selectedPortfolio._id} portfolioAssets={portfolioAssets.map(pa => ({
+                                    _id : pa._id,
+                                    symbol : pa.symbol,
+                                    quantity : pa.quantity,
+                                    name : portfolioAssetsFullDetails.find(pfa => pfa.symbol === pa.symbol && pfa.market === pa.market)?.name,
+                                    current_price : portfolioAssetsFullDetails.find(pfa => pfa.symbol === pa.symbol && pfa.market === pa.market)?.current_price
+                                }))}/>
+                            }
                         </div>
                         }
                         <div className="text-xs xxs:sm xs:text-base sm:text-lg font-bold">

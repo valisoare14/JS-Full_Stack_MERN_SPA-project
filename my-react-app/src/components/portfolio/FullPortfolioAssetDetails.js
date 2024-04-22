@@ -109,7 +109,7 @@ function FullPortfolioAssetDetails(props) {
                 <div className='absolute inset-0 bg-gray-400 bg-opacity-60'></div>
                 <div className='absolute inset-1/2 flex-col
                     transform -translate-x-1/2 -translate-y-1/2 
-                    w-95/100 sm:w-60/100 h-1/2 xs:h-2/3 
+                    w-95/100 sm:w-60/100 h-35/100 xs:h-35/100 md:h-45/100
                     text-xxxs xxs:text-xxs xs:text-xs sm:text-sm font-mono
                     bg-white overflow-auto'>
                     <div className='flex justify-end m-1'>

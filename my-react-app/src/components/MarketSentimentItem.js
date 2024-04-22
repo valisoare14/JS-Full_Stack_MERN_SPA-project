@@ -3,6 +3,7 @@ import { useState } from "react"
 function MarketSentimentItem(props) {
     const {item} = props
     const [readMore , setReadMore] = useState(false)
+
     return(
         <div className="flex flex-col text-xxxs xxs:text-xxs sm:text-sm font-mono border mt-1 mb-1 sm:mt-3 sm:mb-3 border-black m-1 border-1 xs:border-2 xxs:border-3 sm:border-4 w-95/100 sm:w-2/3">
             <div className="flex flex-col">
@@ -27,11 +28,13 @@ function MarketSentimentItem(props) {
                             <div className="font-thin">{item.investors_sentiment ?item.investors_sentiment:'-' }</div>
                         </div>
                         {item.investors_score && <div className="flex w-30/100 rounded-md overflow-hidden">
-                            <div style={{width:`${(item.investors_score+0.5) * 100}%`}} className={`bg-green-600 text-center h-5 xs:h-10 rounded-l-md ${(item.investors_score+0.5)*100 === 100 && 'rounded-r-md'}`}>
-                                {(item.investors_score+0.5)*100}%
+                            <div style={{width:`${(item.investors_score+0.5) * 100}%`}} 
+                                className={`bg-green-600 text-center h-5 xs:h-10 rounded-l-md ${(item.investors_score+0.5)*100 === 100 && 'rounded-r-md'}`}>
+                                {((item.investors_score+0.5)*100).toFixed()}%
                             </div>
-                            <div style={{width : `${((item.investors_score-0.5) * -1)*100}%`}} className={`bg-red-600 text-center h-5 xs:h-10 rounded-r-md ${((item.investors_score-0.5) * -1)*100 === 100 && 'rounded-l-md'}`}> 
-                                {((item.investors_score-0.5) * -1)*100}%
+                            <div style={{width : `${((item.investors_score-0.5) * -1)*100}%`}} 
+                                className={`bg-red-600 text-center h-5 xs:h-10 rounded-r-md ${((item.investors_score-0.5) * -1)*100 === 100 && 'rounded-l-md'}`}> 
+                                {(((item.investors_score-0.5) * -1)*100).toFixed()}%
                             </div>
                         </div>}
                     </div>
@@ -41,10 +44,12 @@ function MarketSentimentItem(props) {
                             <div className="font-thin">{item.market_sentiment ?item.market_sentiment:'-' }</div>
                         </div>
                         {item.market_score && <div className="flex w-30/100 rounded-md overflow-hidden">
-                            <div style={{width:`${(item.market_score+0.5) * 100}%`}} className={`bg-green-600 text-center h-5 xs:h-10 rounded-l-md ${(item.market_score+0.5)*100 === 100 && 'rounded-r-md'}`}>
+                            <div style={{width:`${(item.market_score+0.5) * 100}%`}} 
+                                className={`bg-green-600 text-center h-5 xs:h-10 rounded-l-md ${(item.market_score+0.5)*100 === 100 && 'rounded-r-md'}`}>
                                 {((item.market_score+0.5)*100).toFixed()}%
                             </div>
-                            <div style={{width : `${((item.market_score-0.5) * -1)*100}%`}} className={`bg-red-600 text-center h-5 xs:h-10 rounded-r-md ${((item.market_score-0.5) * -1)*100 === 100 && 'rounded-l-md'}`}> 
+                            <div style={{width : `${((item.market_score-0.5) * -1)*100}%`}} 
+                                className={`bg-red-600 text-center h-5 xs:h-10 rounded-r-md ${((item.market_score-0.5) * -1)*100 === 100 && 'rounded-l-md'}`}> 
                                 {(((item.market_score-0.5) * -1)*100).toFixed()}%
                             </div>
                         </div>}
