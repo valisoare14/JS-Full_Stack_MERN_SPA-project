@@ -1,5 +1,5 @@
 import PortfolioManager from "./PortfolioManager"
-import {useEffect, useState , Fragment} from 'react'
+import {useEffect, useState } from 'react'
 import {useSelector , useDispatch } from 'react-redux'
 import { getPortfolioAssetsByPortfolioId } from "../../api_s/getPortfolioAssetsByPortfolioId"
 import { getAssetDetailsBySymbol } from "../../api_s/getAssetDetailsBySymbol"

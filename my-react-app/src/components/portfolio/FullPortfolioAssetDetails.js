@@ -10,7 +10,6 @@ import { setPushUpMessage , setOnNotify , setAssetToPortfolioWindow ,
       setPortfolioAssetsFullDetails , setPortfolioAssetDeletionDialogWindow} from '../../store/slices/slice'
 import {pushNotification} from '../../api_s/pushNotification'
 import AssetToPortfolioWindow from '../AssetToPortfolioWindow'
-import { deletePortfolioAsset } from '../../api_s/deletePortfolioAsset'
 import PortfolioAssetDeletionDialogWindow from './PortfolioAssetDeletionDialogWindow'
 
 function FullPortfolioAssetDetails(props) {

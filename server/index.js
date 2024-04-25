@@ -4,6 +4,7 @@ const cors=require('cors')
 const express=require('express')
 
 const verifyToken = require('./utils/verifyToken')
+const verifyAdminToken = require('./utils/verifyAdminToken')
 
 const usersRoutes=require('./routes/users')
 const authentificationRoutes=require('./routes/authentification')
@@ -21,6 +22,8 @@ const portfolioAssetRoutes = require('./routes/portfolioasset')
 const transactionsRoutes = require('./routes/transactions')
 const portfolioRoutes = require('./routes/portfolios')
 const verificationRoutes = require('./routes/verification')
+const adminRoutes = require('./routes/admin')
+const adminSymbolsRoutes = require('./routes/adminsymbols')
 
 //MDB
 const mdbconnect=require('./databases/database')
@@ -53,6 +56,9 @@ app.use('/portfolioasset',verifyToken , portfolioAssetRoutes)
 app.use('/transactions',verifyToken , transactionsRoutes)
 app.use('/portfolio',verifyToken , portfolioRoutes)
 app.use('/account',verifyToken , verificationRoutes)
+app.use('/admin', adminRoutes)
+app.use('/adminsymbols', verifyAdminToken ,adminSymbolsRoutes)
+
 
 
 app.get('/', function (req, res) {

@@ -38,7 +38,6 @@ router.post('/',async(req,res)=>{
                 }).save
             }
             await sendEmail(user.email,"Verify Email",`${process.env.BASE_URL_FRONTEND}users/verify/${user._id}/${token.token}`)
-
         }
         const token = jwt.sign({_id: user._id }, process.env.JASON_WEB_TOKEN, {
             expiresIn: "4h",

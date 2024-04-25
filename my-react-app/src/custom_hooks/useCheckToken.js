@@ -1,9 +1,13 @@
 import { useEffect } from "react"
 import { setLoading , setToken} from "../store/slices/slice"
 import { useDispatch } from "react-redux"
+import { useCheckAdminToken } from "./useCheckAdminToken"
 
 function useCheckToken() {
     const dispatch=useDispatch()
+    
+    useCheckAdminToken()
+    
     useEffect(()=>{
         async function checkToken(){
             try {
@@ -29,7 +33,7 @@ function useCheckToken() {
                 console.error(error.message)
             }
         }
-        checkToken().then(()=>dispatch(setLoading(false))).catch(err=>console.error(err))
+        checkToken().then(()=>{dispatch(setLoading(false))}).catch(err=>console.error(err))
     },[])
 }
 
