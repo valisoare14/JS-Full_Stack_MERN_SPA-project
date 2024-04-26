@@ -16,7 +16,7 @@ import MarketSentiment from "./components/MarketSentiment";
 import Portfolio from "./components/portfolio/Portfolio";
 import { useCheckAdminToken } from "./custom_hooks/useCheckAdminToken";
 import AdminHomepage from './components/admin/AdminHomepage'
-import { setLoading } from "./store/slices/slice";
+import Analyses from "./components/Analyses";
 
 function App() {
   const token = useSelector(state=>state.global.token)
@@ -42,6 +42,7 @@ function App() {
               <Route path="/marketsentiment" element={token ? !adminToken ? <PrimaryLayout><MarketSentiment /></PrimaryLayout> : <Navigate replace to="/adminhomepage" /> : <Navigate replace to="/login" />} />
               <Route path="/portfolio" element={token ? !adminToken ? <PrimaryLayout><Portfolio /></PrimaryLayout> : <Navigate replace to="/adminhomepage" /> : <Navigate replace to="/login" />} />
               <Route path="/account" element={token ? !adminToken ? <PrimaryLayout><Account /></PrimaryLayout> : <Navigate replace to="/adminhomepage" /> : <Navigate replace to="/login" />} />
+              <Route path="/analyses" element={token ? !adminToken ? <PrimaryLayout><Analyses /></PrimaryLayout> : <Navigate replace to="/adminhomepage" /> : <Navigate replace to="/login" />} />
               <Route path="/adminhomepage" element={adminToken ? <PrimaryLayout><AdminHomepage/></PrimaryLayout> : <Navigate replace to='/'/>} />
               <Route path='/login' element={!token ? <Login/> : <Navigate replace to="/" />}/>
               <Route path='/users/verify/:id/:token' element={<EmailVerification/>}/>

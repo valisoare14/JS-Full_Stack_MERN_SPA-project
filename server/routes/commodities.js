@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Commodity = require('../databases/Commodity')
 const fetchCommodities = require('../utils/fetchCommodities')
+const getAdminSymbols = require('../utils/getAdminSymbols')
 
 router.get('/',async(req,res)=>{
     try {
@@ -15,7 +16,12 @@ router.get('/',async(req,res)=>{
             await fetchCommodities(docnumber)
         }
         const obs=await Commodity.find()
-        return res.status(200).json(obs[0])
+        const adminSymbols =await getAdminSymbols('commodities')
+        return res.status(200).json({
+            _id : obs[0]._id,
+            data : obs[0].data.filter(a => adminSymbols.includes(a.symbol)),
+            timestamp : obs[0].timestamp
+        })
     } catch (error) {
         console.error(error)
         return res.status(500).json({message:error.message})

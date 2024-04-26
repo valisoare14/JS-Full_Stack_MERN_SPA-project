@@ -24,6 +24,7 @@ const portfolioRoutes = require('./routes/portfolios')
 const verificationRoutes = require('./routes/verification')
 const adminRoutes = require('./routes/admin')
 const adminSymbolsRoutes = require('./routes/adminsymbols')
+const analysesRoutes = require('./routes/analyses')
 
 //MDB
 const mdbconnect=require('./databases/database')
@@ -58,6 +59,7 @@ app.use('/portfolio',verifyToken , portfolioRoutes)
 app.use('/account',verifyToken , verificationRoutes)
 app.use('/admin', adminRoutes)
 app.use('/adminsymbols', verifyAdminToken ,adminSymbolsRoutes)
+app.use('/analyses',analysesRoutes)
 
 
 

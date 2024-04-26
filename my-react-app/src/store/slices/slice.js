@@ -26,7 +26,8 @@ const initialState={
     portfolioAssetDeletionDialogWindow : false,
     accountDeletionDialogWindow : false,
     adminAuthentificationDialogWindow : false,
-    adminToken : null
+    adminToken : null,
+    analysesDialogWindow : false
 }
 
 export const globalSlice=createSlice({
@@ -110,7 +111,11 @@ export const globalSlice=createSlice({
         },
         setAdminToken : (state , action)=>{
             state.adminToken = action.payload
+        },
+        setAnalysesDialogWindow : (state , action)=>{
+            state.analysesDialogWindow = action.payload
         }
+        
         
     }
 })
@@ -122,5 +127,5 @@ export const {setAssets,setLastUpdate,setCollection
     setAssetToPortfolioWindow,setSelectedPortfolio ,setPortfolioDeletionDialogWindow,
     setFullPortfolioAssetDetailsWindows, setPortfolioAssets,setPortfolioAssetsFullDetails,
     setPortfolioAssetDeletionDialogWindow, setAccountDeletionDialogWindow,
-    setAdminAuthentificationDialogWindow, setAdminToken
+    setAdminAuthentificationDialogWindow, setAdminToken, setAnalysesDialogWindow
 }=globalSlice.actions

@@ -16,7 +16,7 @@ function Menu(){
             <button className="menu-item" onClick={()=>navigate('/portfolio')}>
                 <img src="/icos/portfolio.svg" alt="Portfolio logo" className="symbol"/> <span className="menu-item-text">Portfolio</span>
             </button>
-            <button className="menu-item" >
+            <button className="menu-item" onClick={()=>navigate('/analyses')}>
                 <img src="/icos/analysis.svg" alt="Analysis logo" className="symbol"/> <span className="menu-item-text">Analysis</span>
             </button>
             <button className="menu-item" onClick={()=>navigate('/marketsentiment')}>
