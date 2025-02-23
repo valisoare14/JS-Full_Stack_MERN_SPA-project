@@ -1,31 +1,31 @@
-# Full Stack MERN SPA(Single Page Application) 
+# Financial Markets Application
 
-## Tehnologii folosite:
+## Technologies Used:
 - **Language:** ***JavaScript***
-- **Backend:**  ***Node.js*** cu framework-ul ***Express*** pentru crearea de ***API-uri RESTful***
-- **Fronted:**  ***React*** pentru construirea interfeței utilizator, împreună cu ***Tailwind CSS*** pentru stilizare și ***HTML*** pentru structura paginii
-- **DBMS:** ***MongoDB*** cu ODM-ul ***Mongoose*** pentru manipularea datelor 
+- **Backend:** ***Node.js*** with the ***Express*** framework for creating ***RESTful APIs***
+- **Frontend:** ***React*** for building the user interface, along with ***Tailwind CSS*** for styling and ***HTML*** for page structure
+- **DBMS:** ***MongoDB*** with the ***Mongoose*** ODM for data manipulation
 
-## Tema aplicatiei :
-- Aceasta aplicatie isi propune sa ofere o solutie informatica competitiva in domeniul gestiunii tranzactiilor pe pietele de capital precum Actiuni , Marfuri si Criptomonede.
-- Structura acestei aplicatii este conturata in jurul functionalitatilor oferite de solutii software renumite in sectorul gesiunii tranzactiilor activelor financiare,
-precum YahooFinance, CoinGecko si CoinMarketCap, oferind o alternativa de luat in calcul.
-- In procesul de culegere al datelor economice,
-Aplicatia interacționează cu diferiți provideri de date prin trimiterea de cereri RESTful API.
-Aceste cereri sunt efectuate utilizând protocolul HTTP și sunt direcționate către endpoint-uri API specifice ale fiecărui furnizor(ex. furnizori : '12Data' 'Alpha Vantage' 'Coingeko API' ...)
+## Application Theme:
+- This application aims to provide a **competitive IT solution** for managing transactions in capital markets such as **Stocks, Commodities, and Cryptocurrencies**.
+- The structure of this application is inspired by well-known **financial asset management** software solutions such as **Yahoo Finance, CoinGecko, and CoinMarketCap**, offering a viable alternative.
+- For **economic data collection**,  
+  the application interacts with **various data providers** by sending **RESTful API requests**.  
+  These requests are performed using the **HTTP protocol** and directed to the **specific API endpoints** of each provider  
+  (e.g., providers: **'12Data'**, **'Alpha Vantage'**, **'CoinGecko API'**, etc.).
 
-### Functionalitati implementate: 
-- lista active
-- calendar economica
-- portofoliu active
-- alerte de pret
-- istoric tranzactii
-- calculator active
-- materiale educative
-- stiri economice
-- sectiune notificari
-- filtrari preferentiale
-- feedback active
-- sentimentul pietei
-- watchlist
-- analize de piata
+### Implemented Features:
+- Asset list
+- Economic calendar
+- Asset portfolio
+- Price alerts
+- Transaction history
+- Asset calculator
+- Educational materials
+- Economic news
+- Notifications section
+- Custom filtering
+- Asset feedback
+- Market sentiment analysis
+- Watchlist
+- Market analysis
